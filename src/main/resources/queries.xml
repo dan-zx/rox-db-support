@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+    <!-- ///////////////////////////////////////// POI ///////////////////////////////////////// -->
+    <entry key="allPois">
+        <![CDATA[
+             MATCH (p:Poi)
+             RETURN p.name, p.latitude, p.longitude, p.foursquareId, p.foursquareRating
+        ]]>
+    </entry>
+    <entry key="existsPoi">
+        <![CDATA[
+             MATCH (:Poi {foursquareId:{1}})
+             RETURN true
+        ]]>
+    </entry>
+    <entry key="createPoi">
+        <![CDATA[
+             CREATE (:Poi {name:{1}, latitude:{2}, longitude:{3}, foursquareId:{4}, foursquareRating:{5}})
+        ]]>
+    </entry>
+    <entry key="createIsLink">
+        <![CDATA[
+             MATCH (p:Poi {foursquareId:{1}}), (c:Category {foursquareId:{2}})
+             CREATE (p)-[:IS]->(c)
+        ]]>
+    </entry>
+    <entry key="updatePoi">
+        <![CDATA[
+             MATCH (p:Poi {foursquareId:{1}})
+             SET p.name = {2}, p.latitude = {3}, p.longitude = {4}, p.foursquareRating = {5}
+        ]]>
+    </entry>
+    <entry key="deleteIsLinks">
+        <![CDATA[
+             MATCH (:Poi {foursquareId:{1}})-[r:IS]->(:Category)
+             DELETE r
+        ]]>
+    </entry>
+
+    <!-- ////////////////////////////////////// Category /////////////////////////////////////// -->
+    <entry key="allCategories">
+        <![CDATA[
+             MATCH (c:Category)
+             RETURN c.defaultName, c.spanishName, c.iconUrl, c.foursquareId
+        ]]>
+    </entry>
+    <entry key="categoriesByPoiFoursquareId">
+        <![CDATA[
+             MATCH (:Poi {foursquareId:{1}})-[:IS]->(c:Category)
+             RETURN c.defaultName, c.spanishName, c.iconUrl, c.foursquareId
+        ]]>
+    </entry>
+    <entry key="existsCategory">
+        <![CDATA[
+             MATCH (:Category {foursquareId:{1}})
+             RETURN true
+        ]]>
+    </entry>
+    <entry key="createCategory">
+        <![CDATA[
+             CREATE (:Category {defaultName:{1}, spanishName:{2}, iconUrl:{3}, foursquareId:{4}})
+        ]]>
+    </entry>
+    <entry key="updateCategory">
+        <![CDATA[
+             MATCH (c:Category {foursquareId:{1}})
+             SET c.defaultName = {2}, c.spanishName = {3}, c.iconUrl = {4}
+        ]]>
+    </entry>
+</properties>

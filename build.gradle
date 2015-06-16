@@ -1,0 +1,70 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+group = 'com.rox'
+version = '1.0-SNAPSHOT'
+sourceCompatibility = '1.8'
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+[compileJava, compileTestJava]*.options*.compilerArgs = ['-Xlint']
+
+repositories {
+    mavenCentral()
+    maven { url 'https://dl.dropboxusercontent.com/u/1995295/m2repository' }
+    maven { url 'http://m2.neo4j.org/content/groups/public' }
+}
+
+ext {
+    springVersion = '4.1.6.RELEASE'
+    neo4jVersion  = '2.2.2'
+}
+
+dependencies {
+    // LOGGING
+    compile 'ch.qos.logback:logback-classic:1.1.3'
+    compile 'org.slf4j:jcl-over-slf4j:1.7.12'
+    runtime 'org.codehaus.groovy:groovy:2.4.3'
+
+     // SPRING
+    compile ("org.springframework:spring-context:${springVersion}") {
+        exclude module: 'commons-logging'
+    }
+    compile "org.springframework:spring-jdbc:${springVersion}"
+    compile "org.springframework:spring-tx:${springVersion}"
+    compile 'javax.inject:javax.inject:1'
+
+    // FOURSQUARE
+    compile 'com.foursquare4j:foursquare4j:0.1'
+
+    // DATABASE
+    compile 'org.neo4j:neo4j-jdbc:2.1.4'
+    compile "org.neo4j:neo4j:${neo4jVersion}"
+    compile "org.neo4j:neo4j-kernel:${neo4jVersion}:tests@jar"
+}
+
+task copyLibs(type: Copy) {
+    from configurations.compile
+    into 'build/libs/libs'
+    from configurations.runtime
+    into 'build/libs/libs'
+}
+
+task copyConf(type: Copy) {
+    from 'conf'
+    into 'build/libs'
+}
+
+assemble.dependsOn copyConf
+assemble.dependsOn copyLibs
+
+jar {
+    manifest {
+        attributes (
+            'Main-Class': 'com.grayfox.server.Program',
+            'Class-Path':  '. ' + configurations.compile.collect { 'libs/' + it.getName() }.join(' ') + ' ' + configurations.runtime.collect { 'libs/' + it.getName() }.join(' ')
+        )
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.4'
+}
