@@ -31,7 +31,6 @@ repositories {
 
 ext {
     springVersion = '4.1.6.RELEASE'
-    neo4jVersion  = '2.2.2'
 }
 
 dependencies {
@@ -53,8 +52,7 @@ dependencies {
 
     // DATABASE
     compile 'org.neo4j:neo4j-jdbc:2.1.4'
-    compile "org.neo4j:neo4j:${neo4jVersion}"
-    compile "org.neo4j:neo4j-kernel:${neo4jVersion}:tests@jar"
+    compile 'org.neo4j:neo4j:2.2.2'
 }
 
 task copyLibs(type: Copy) {
