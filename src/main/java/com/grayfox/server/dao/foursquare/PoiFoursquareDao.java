@@ -46,7 +46,7 @@ public class PoiFoursquareDao extends FoursquareDao {
     private Map<String, Category> categories;
 
     @PostConstruct
-    private void onPostConstruct() {
+    protected void init() {
         categories = allCategories();
     }
 
