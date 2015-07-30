@@ -33,6 +33,7 @@ appender('console', ConsoleAppender) {
     }
 }
 
+logger('javax.management', WARN)
 logger('com.foursquare4j', WARN)
 logger('com.squareup.okhttp.mockwebserver', WARN)
 logger('org.apache.http', WARN)
