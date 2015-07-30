@@ -41,8 +41,9 @@ public class Location implements Serializable {
     }
 
     public static Location parse(String locationString) {
+        if (locationString == null) throw new IllegalArgumentException("Location string must not be null");
         String[] latLng = locationString.split(",");
-        if (latLng == null || latLng.length != 2) throw new IllegalArgumentException("Incorrect location format [" + locationString + "]. It must be '##.##,##.##'"); 
+        if (latLng.length != 2) throw new IllegalArgumentException("Incorrect location format [" + locationString + "]. It must be '##.##,##.##'"); 
         try {
             Location location = new Location();
             location.setLatitude(Double.parseDouble(latLng[0]));
