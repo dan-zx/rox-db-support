@@ -96,7 +96,7 @@ public class PoiFoursquareDaoTest {
 
     @Test
     public void testErrorInFetchNearLocations() {
-        assertThatThrownBy(() -> poiFoursquareDao.fetchNearLocations(Location.parse("19.3,-98.5")))
+        assertThatThrownBy(() -> poiFoursquareDao.fetchNearLocations(Location.parse("0,0")))
             .isInstanceOf(DaoException.class)
             .hasMessageStartingWith("Internal error while requesting Foursquare data. Message:");
     }
