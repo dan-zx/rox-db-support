@@ -30,7 +30,6 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -44,7 +43,6 @@ public class MainConfig {
         return new PropertySourcesPlaceholderConfigurer();
     }
 
-    @EnableAsync
     @Configuration
     @EnableTransactionManagement
     @ComponentScan(basePackages = { 
