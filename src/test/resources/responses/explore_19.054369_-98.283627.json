@@ -1,0 +1,283 @@
+{
+    "meta":{
+        "code":200
+    },
+    "notifications":[
+        {
+            "type":"notificationTray",
+            "item":{
+                "unreadCount":0
+            }
+        }
+    ],
+    "response":{
+        "suggestedFilters":{
+            "header":"Tap to show:",
+            "filters":[
+                {
+                    "name":"Open now",
+                    "key":"openNow"
+                },
+                {
+                    "name":"Places friends go",
+                    "key":"friendVisits"
+                }
+            ]
+        },
+        "warning":{
+            "text":"There aren't a lot of results near you. Try something more general, reset your filters, or expand the search area."
+        },
+        "suggestedRadius":3610,
+        "headerLocation":"San Andrés Cholula",
+        "headerFullLocation":"San Andrés Cholula",
+        "headerLocationGranularity":"city",
+        "totalResults":222,
+        "suggestedBounds":{
+            "ne":{
+                "lat":19.05133984633048,
+                "lng":-98.28040290177347
+            },
+            "sw":{
+                "lat":19.04864018654504,
+                "lng":-98.28315771219087
+            }
+        },
+        "groups":[
+            {
+                "type":"Recommended Places",
+                "name":"recommended",
+                "items":[
+                    {
+                        "reasons":{
+                            "count":0,
+                            "items":[
+                                {
+                                    "summary":"This spot is popular",
+                                    "type":"general",
+                                    "reasonName":"globalInteractionReason"
+                                }
+                            ]
+                        },
+                        "venue":{
+                            "id":"4c09270ea1b32d7f172297f0",
+                            "name":"Las Quekas",
+                            "contact":{
+                                "phone":"012222256646",
+                                "formattedPhone":"01 222 225 6646"
+                            },
+                            "location":{
+                                "address":"14 Oriente 1441",
+                                "lat":19.050907767250518,
+                                "lng":-98.28156293330026,
+                                "distance":442,
+                                "postalCode":"72810",
+                                "cc":"MX",
+                                "city":"San Andrés Cholula",
+                                "state":"Puebla",
+                                "country":"México",
+                                "formattedAddress":[
+                                    "14 Oriente 1441",
+                                    "72810 San Andrés Cholula, Puebla"
+                                ]
+                            },
+                            "categories":[
+                                {
+                                    "id":"4bf58dd8d48988d143941735",
+                                    "name":"Breakfast Spot",
+                                    "pluralName":"Breakfast Spots",
+                                    "shortName":"Breakfast",
+                                    "icon":{
+                                        "prefix":"https:\/\/ss3.4sqi.net\/img\/categories_v2\/food\/breakfast_",
+                                        "suffix":".png"
+                                    },
+                                    "primary":true
+                                }
+                            ],
+                            "verified":false,
+                            "stats":{
+                                "checkinsCount":2593,
+                                "usersCount":1197,
+                                "tipCount":46
+                            },
+                            "price":{
+                                "tier":1,
+                                "message":"Cheap",
+                                "currency":"$"
+                            },
+                            "like":false,
+                            "rating":8.5,
+                            "ratingColor":"73CF42",
+                            "ratingSignals":158,
+                            "hours":{
+                                "status":"Open until 5:00 PM",
+                                "isOpen":true
+                            },
+                            "specials":{
+                                "count":0,
+                                "items":[
+
+                                ]
+                            },
+                            "photos":{
+                                "count":55,
+                                "groups":[
+
+                                ]
+                            },
+                            "hereNow":{
+                                "count":0,
+                                "summary":"Nobody here",
+                                "groups":[
+
+                                ]
+                            }
+                        },
+                        "tips":[
+                            {
+                                "id":"5054861be4b084591530b44e",
+                                "createdAt":1347716635,
+                                "text":"Las meseras están medio atontadas. Siempre te llevan cosas que tu ni pediste. Jaja",
+                                "type":"user",
+                                "canonicalUrl":"https:\/\/foursquare.com\/item\/5054861be4b084591530b44e",
+                                "likes":{
+                                    "count":4,
+                                    "groups":[
+
+                                    ],
+                                    "summary":"4 likes"
+                                },
+                                "logView":true,
+                                "todo":{
+                                    "count":0
+                                },
+                                "user":{
+                                    "id":"6557808",
+                                    "firstName":"Areli",
+                                    "lastName":"Martínez",
+                                    "gender":"female",
+                                    "photo":{
+                                        "prefix":"https:\/\/irs2.4sqi.net\/img\/user\/",
+                                        "suffix":"\/E3PJ4MET15POE5PH.jpg"
+                                    }
+                                }
+                            }
+                        ],
+                        "referralId":"e-0-4c09270ea1b32d7f172297f0-0"
+                    },
+                    {
+                        "reasons":{
+                            "count":0,
+                            "items":[
+                                {
+                                    "summary":"This spot is popular",
+                                    "type":"general",
+                                    "reasonName":"globalInteractionReason"
+                                }
+                            ]
+                        },
+                        "venue":{
+                            "id":"51088c2ce4b0c409707a6897",
+                            "name":"Los Choripanes",
+                            "contact":{
+
+                            },
+                            "location":{
+                                "lat":19.049072265625,
+                                "lng":-98.28199768066406,
+                                "distance":614,
+                                "cc":"MX",
+                                "city":"San Andrés Cholula",
+                                "state":"Puebla",
+                                "country":"México",
+                                "formattedAddress":[
+                                    "San Andrés Cholula, Puebla"
+                                ]
+                            },
+                            "categories":[
+                                {
+                                    "id":"4bf58dd8d48988d107941735",
+                                    "name":"Argentinian Restaurant",
+                                    "pluralName":"Argentinian Restaurants",
+                                    "shortName":"Argentinian",
+                                    "icon":{
+                                        "prefix":"https:\/\/ss3.4sqi.net\/img\/categories_v2\/food\/argentinian_",
+                                        "suffix":".png"
+                                    },
+                                    "primary":true
+                                }
+                            ],
+                            "verified":false,
+                            "stats":{
+                                "checkinsCount":656,
+                                "usersCount":252,
+                                "tipCount":38
+                            },
+                            "price":{
+                                "tier":2,
+                                "message":"Moderate",
+                                "currency":"$"
+                            },
+                            "like":false,
+                            "rating":8.6,
+                            "ratingColor":"73CF42",
+                            "ratingSignals":73,
+                            "hours":{
+                                "isOpen":false
+                            },
+                            "specials":{
+                                "count":0,
+                                "items":[
+
+                                ]
+                            },
+                            "photos":{
+                                "count":29,
+                                "groups":[
+
+                                ]
+                            },
+                            "hereNow":{
+                                "count":0,
+                                "summary":"Nobody here",
+                                "groups":[
+
+                                ]
+                            }
+                        },
+                        "tips":[
+                            {
+                                "id":"5175fbece4b0414d9475353a",
+                                "createdAt":1366686700,
+                                "text":"Ya hay pepitos de arrachera norteña. Tienen que probarlos",
+                                "type":"user",
+                                "canonicalUrl":"https:\/\/foursquare.com\/item\/5175fbece4b0414d9475353a",
+                                "likes":{
+                                    "count":6,
+                                    "groups":[
+
+                                    ],
+                                    "summary":"6 likes"
+                                },
+                                "logView":true,
+                                "todo":{
+                                    "count":0
+                                },
+                                "user":{
+                                    "id":"49330104",
+                                    "firstName":"Luisk",
+                                    "lastName":"Perez",
+                                    "gender":"none",
+                                    "photo":{
+                                        "prefix":"https:\/\/irs2.4sqi.net\/img\/user\/",
+                                        "suffix":"\/49330104-V34WD5KSTY2GMX5K.jpg"
+                                    }
+                                }
+                            }
+                        ],
+                        "referralId":"e-0-51088c2ce4b0c409707a6897-1"
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,311 @@
+{
+    "meta":{
+        "code":200
+    },
+    "notifications":[
+        {
+            "type":"notificationTray",
+            "item":{
+                "unreadCount":0
+            }
+        }
+    ],
+    "response":{
+        "suggestedFilters":{
+            "header":"Tap to show:",
+            "filters":[
+                {
+                    "name":"With specials",
+                    "key":"specials"
+                },
+                {
+                    "name":"Open now",
+                    "key":"openNow"
+                }
+            ]
+        },
+        "warning":{
+            "text":"There aren't a lot of results near you. Try something more general, reset your filters, or expand the search area."
+        },
+        "suggestedRadius":1684,
+        "headerLocation":"Puebla",
+        "headerFullLocation":"Puebla",
+        "headerLocationGranularity":"city",
+        "totalResults":237,
+        "suggestedBounds":{
+            "ne":{
+                "lat":19.04523356735751,
+                "lng":-98.19675295684492
+            },
+            "sw":{
+                "lat":19.042533907572068,
+                "lng":-98.19950440523196
+            }
+        },
+        "groups":[
+            {
+                "type":"Recommended Places",
+                "name":"recommended",
+                "items":[
+                    {
+                        "reasons":{
+                            "count":1,
+                            "items":[
+                                {
+                                    "summary":"3 friends have been here",
+                                    "type":"social",
+                                    "reasonName":"friendAndSelfCheckinReason",
+                                    "message":"Alejandro I. (3x), Mariana and Rafael R. have been here",
+                                    "count":3
+                                }
+                            ]
+                        },
+                        "venue":{
+                            "id":"4ba952daf964a520d81e3ae3",
+                            "name":"Zócalo",
+                            "contact":{
+                                "facebook":"55799605955",
+                                "facebookUsername":"Pueblaa",
+                                "facebookName":"Puebla"
+                            },
+                            "location":{
+                                "address":"Av. Reforma",
+                                "crossStreet":"16 de Septiembre",
+                                "lat":19.043884224818616,
+                                "lng":-98.19828987121582,
+                                "distance":42,
+                                "postalCode":"72000",
+                                "cc":"MX",
+                                "city":"Puebla de Zaragoza",
+                                "state":"Puebla",
+                                "country":"México",
+                                "formattedAddress":[
+                                    "Av. Reforma (16 de Septiembre)",
+                                    "72000 Puebla, Puebla"
+                                ]
+                            },
+                            "categories":[
+                                {
+                                    "id":"4bf58dd8d48988d164941735",
+                                    "name":"Plaza",
+                                    "pluralName":"Plazas",
+                                    "shortName":"Plaza",
+                                    "icon":{
+                                        "prefix":"https:\/\/ss3.4sqi.net\/img\/categories_v2\/parks_outdoors\/plaza_",
+                                        "suffix":".png"
+                                    },
+                                    "primary":true
+                                }
+                            ],
+                            "verified":true,
+                            "stats":{
+                                "checkinsCount":37296,
+                                "usersCount":15150,
+                                "tipCount":155
+                            },
+                            "like":false,
+                            "rating":9.2,
+                            "ratingColor":"00B551",
+                            "ratingSignals":668,
+                            "specials":{
+                                "count":0,
+                                "items":[
+
+                                ]
+                            },
+                            "photos":{
+                                "count":2430,
+                                "groups":[
+
+                                ]
+                            },
+                            "hereNow":{
+                                "count":1,
+                                "summary":"One other person is here",
+                                "groups":[
+                                    {
+                                        "type":"others",
+                                        "name":"Other people here",
+                                        "count":1,
+                                        "items":[
+
+                                        ]
+                                    }
+                                ]
+                            },
+                            "venuePage":{
+                                "id":"80450097"
+                            }
+                        },
+                        "tips":[
+                            {
+                                "id":"51224cd6e4b061129f7e8cc5",
+                                "createdAt":1361202390,
+                                "text":"Los domingos hay paseo en bici. Cierran las calles y te prestan una bici con tu IFE súper padre ! Vale la pena ir !",
+                                "type":"user",
+                                "canonicalUrl":"https:\/\/foursquare.com\/item\/51224cd6e4b061129f7e8cc5",
+                                "likes":{
+                                    "count":55,
+                                    "groups":[
+
+                                    ],
+                                    "summary":"55 likes"
+                                },
+                                "logView":true,
+                                "todo":{
+                                    "count":4
+                                },
+                                "user":{
+                                    "id":"45765012",
+                                    "firstName":"Ivana",
+                                    "lastName":"Vásquez",
+                                    "gender":"female",
+                                    "photo":{
+                                        "prefix":"https:\/\/irs1.4sqi.net\/img\/user\/",
+                                        "suffix":"\/PKCNHUWIBNWDK54N.jpg"
+                                    }
+                                }
+                            }
+                        ],
+                        "referralId":"e-0-4ba952daf964a520d81e3ae3-0"
+                    },
+                    {
+                        "reasons":{
+                            "count":1,
+                            "items":[
+                                {
+                                    "summary":"Alejandro I. has been here",
+                                    "type":"social",
+                                    "reasonName":"friendAndSelfCheckinReason",
+                                    "message":"Alejandro I. has been here",
+                                    "count":1
+                                }
+                            ]
+                        },
+                        "venue":{
+                            "id":"4f496cd5e4b07165fa2d73af",
+                            "name":"Centro Histórico",
+                            "contact":{
+
+                            },
+                            "location":{
+                                "lat":19.043883250110966,
+                                "lng":-98.19796749086107,
+                                "distance":25,
+                                "postalCode":"72000",
+                                "cc":"MX",
+                                "city":"Puebla de Zaragoza",
+                                "state":"Puebla",
+                                "country":"México",
+                                "formattedAddress":[
+                                    "Puebla de Zaragoza",
+                                    "72000 Puebla de Zaragoza, Puebla"
+                                ]
+                            },
+                            "categories":[
+                                {
+                                    "id":"4deefb944765f83613cdba6e",
+                                    "name":"Historic Site",
+                                    "pluralName":"Historic Sites",
+                                    "shortName":"Historic Site",
+                                    "icon":{
+                                        "prefix":"https:\/\/ss3.4sqi.net\/img\/categories_v2\/arts_entertainment\/historicsite_",
+                                        "suffix":".png"
+                                    },
+                                    "primary":true
+                                }
+                            ],
+                            "verified":true,
+                            "stats":{
+                                "checkinsCount":35851,
+                                "usersCount":13722,
+                                "tipCount":116
+                            },
+                            "like":false,
+                            "rating":9.1,
+                            "ratingColor":"00B551",
+                            "ratingSignals":1210,
+                            "hours":{
+                                "status":"Likely open",
+                                "isOpen":true
+                            },
+                            "specials":{
+                                "count":0,
+                                "items":[
+
+                                ]
+                            },
+                            "photos":{
+                                "count":1515,
+                                "groups":[
+
+                                ]
+                            },
+                            "hereNow":{
+                                "count":5,
+                                "summary":"5 people are here",
+                                "groups":[
+                                    {
+                                        "type":"others",
+                                        "name":"Other people here",
+                                        "count":5,
+                                        "items":[
+
+                                        ]
+                                    }
+                                ]
+                            },
+                            "venuePage":{
+                                "id":"80134215"
+                            }
+                        },
+                        "tips":[
+                            {
+                                "id":"520aa2e111d2a4e46a78f077",
+                                "createdAt":1376428769,
+                                "text":"El Centro Histórico es el corazón de Puebla, un perfecto lugar para pasear, tomar buen café, degustar la gastronomía poblana, visitar museos y descubrir la Catedral.",
+                                "type":"user",
+                                "canonicalUrl":"https:\/\/foursquare.com\/item\/520aa2e111d2a4e46a78f077",
+                                "photo":{
+                                    "id":"520aa2e78bbdee43362507fd",
+                                    "createdAt":1376428775,
+                                    "source":{
+                                        "name":"Foursquare Web",
+                                        "url":"https:\/\/foursquare.com"
+                                    },
+                                    "prefix":"https:\/\/irs2.4sqi.net\/img\/general\/",
+                                    "suffix":"\/31186555_pAL9nDBM7Z4cmZeM2lMz-Wh2YPFmlbAO3DYxWSFIXss.jpg",
+                                    "width":1000,
+                                    "height":666
+                                },
+                                "photourl":"https:\/\/irs2.4sqi.net\/img\/general\/original\/31186555_pAL9nDBM7Z4cmZeM2lMz-Wh2YPFmlbAO3DYxWSFIXss.jpg",
+                                "likes":{
+                                    "count":78,
+                                    "groups":[
+
+                                    ],
+                                    "summary":"78 likes"
+                                },
+                                "logView":true,
+                                "todo":{
+                                    "count":1
+                                },
+                                "user":{
+                                    "id":"31186555",
+                                    "firstName":"Poblanerías en línea",
+                                    "gender":"none",
+                                    "photo":{
+                                        "prefix":"https:\/\/irs2.4sqi.net\/img\/user\/",
+                                        "suffix":"\/OSLJ0WEL140FJ51L.jpg"
+                                    },
+                                    "type":"page"
+                                }
+                            }
+                        ],
+                        "referralId":"e-0-4f496cd5e4b07165fa2d73af-1"
+                    }
+                ]
+            }
+        ]
+    }
+}
