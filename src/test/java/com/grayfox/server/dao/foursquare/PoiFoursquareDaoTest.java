@@ -119,16 +119,16 @@ public class PoiFoursquareDaoTest {
     @Test
     public void testFetchByFoursquareId() {
         Poi expectedPoi = new Poi();
-        expectedPoi.setFoursquareId("4c93d5ee72dd224b18539491");
-        expectedPoi.setName("Chimichurri");
-        expectedPoi.setLocation(Location.parse("19.052182387137865,-98.21962375203553"));
-        expectedPoi.setFoursquareRating(8.1);
+        expectedPoi.setFoursquareId("4c09270ea1b32d7f172297f0");
+        expectedPoi.setName("Las Quekas");
+        expectedPoi.setLocation(Location.parse("19.050907767250518,-98.28156293330026"));
+        expectedPoi.setFoursquareRating(8.5);
 
         Category category = new Category();
-        category.setFoursquareId("4bf58dd8d48988d107941735");
-        category.setDefaultName("Argentinian Restaurant");
-        category.setSpanishName("Restaurante argentino");
-        category.setIconUrl("https://ss3.4sqi.net/img/categories_v2/food/argentinian_88.png");
+        category.setFoursquareId("4bf58dd8d48988d143941735");
+        category.setDefaultName("Breakfast Spot");
+        category.setSpanishName("Café");
+        category.setIconUrl("https://ss3.4sqi.net/img/categories_v2/food/breakfast_88.png");
         expectedPoi.setCategories(new HashSet<>(Arrays.asList(category)));
 
         Poi actualPoi = poiFoursquareDao.fetchByFoursquareId(expectedPoi.getFoursquareId());

@@ -35,7 +35,7 @@ import org.springframework.stereotype.Repository;
 public class MockPoiFoursquareDao extends PoiFoursquareDao {
 
     private static final List<Location> SUPPORTED_LOCATIONS = Arrays.asList(Location.parse("19.043651,-98.197968"), Location.parse("19.054369,-98.283627"));
-    private static final List<String> SUPPORTED_VENUES = Arrays.asList("4c93d5ee72dd224b18539491");
+    private static final List<String> SUPPORTED_VENUES = Arrays.asList("4c09270ea1b32d7f172297f0");
 
     @Inject private MockWebServer mockWebServer;
 
