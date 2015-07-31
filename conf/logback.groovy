@@ -29,7 +29,6 @@ appender('console', ConsoleAppender) {
 }
 
 logger('com.foursquare4j', WARN)
-logger('org.apache.http', WARN)
 logger('org.neo4j', WARN)
 logger('org.springframework', WARN)
 logger('org.springframework.jdbc.core', WARN)
