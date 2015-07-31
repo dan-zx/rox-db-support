@@ -4,119 +4,119 @@
   <class id="1" language="java" name="com.grayfox.server.dao.foursquare.PoiFoursquareDao" project="rox-db-support" 
     file="/rox-db-support/src/main/java/com/grayfox/server/dao/foursquare/PoiFoursquareDao.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="182" width="256" x="337" y="205"/>    
+    <position height="-1" width="-1" x="971" y="257"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+      <operations public="true" package="false" protected="true" private="false" static="true"/>    
     </display>  
   </class>  
   <class id="2" language="java" name="com.grayfox.server.dao.foursquare.FoursquareDao" project="rox-db-support" 
     file="/rox-db-support/src/main/java/com/grayfox/server/dao/foursquare/FoursquareDao.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="298" y="499"/>    
+    <position height="-1" width="-1" x="860" y="486"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+      <operations public="true" package="false" protected="true" private="false" static="true"/>    
     </display>  
   </class>  
   <class id="3" language="java" name="com.grayfox.server.dao.foursquare.CategoryFoursquareDao" project="rox-db-support" 
     file="/rox-db-support/src/main/java/com/grayfox/server/dao/foursquare/CategoryFoursquareDao.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="164" width="256" x="41" y="205"/>    
+    <position height="-1" width="-1" x="717" y="257"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+      <operations public="true" package="false" protected="true" private="false" static="true"/>    
     </display>  
   </class>  
   <class id="4" language="java" name="com.grayfox.server.dao.jdbc.JdbcDao" project="rox-db-support" 
     file="/rox-db-support/src/main/java/com/grayfox/server/dao/jdbc/JdbcDao.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="981" y="509"/>    
+    <position height="-1" width="-1" x="230" y="486"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+      <operations public="true" package="false" protected="true" private="false" static="true"/>    
     </display>  
   </class>  
   <class id="5" language="java" name="com.grayfox.server.dao.jdbc.CategoryJdbcDao" project="rox-db-support" 
     file="/rox-db-support/src/main/java/com/grayfox/server/dao/jdbc/CategoryJdbcDao.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="128" width="227" x="977" y="205"/>    
+    <position height="-1" width="-1" x="115" y="266"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+      <operations public="true" package="false" protected="true" private="false" static="true"/>    
     </display>  
   </class>  
   <class id="6" language="java" name="com.grayfox.server.dao.jdbc.PoiJdbcDao" project="rox-db-support" 
     file="/rox-db-support/src/main/java/com/grayfox/server/dao/jdbc/PoiJdbcDao.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="146" width="304" x="633" y="205"/>    
+    <position height="-1" width="-1" x="423" y="266"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+      <operations public="true" package="false" protected="true" private="false" static="true"/>    
     </display>  
   </class>  
   <class id="7" language="java" name="com.grayfox.server.service.PoiService" project="rox-db-support" 
     file="/rox-db-support/src/main/java/com/grayfox/server/service/PoiService.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="128" width="141" x="497" y="37"/>    
+    <position height="-1" width="-1" x="507" y="67"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+      <operations public="true" package="false" protected="true" private="false" static="true"/>    
     </display>  
   </class>  
-  <generalization id="8">    
-    <end type="SOURCE" refId="3"/>    
-    <end type="TARGET" refId="2"/>  
-  </generalization>  
-  <association id="9">    
+  <association id="8">    
     <end type="SOURCE" refId="7" navigable="false">      
-      <attribute id="10" name="poiFoursquareDao"/>      
-      <multiplicity id="11" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="1" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="12">    
-    <end type="SOURCE" refId="7" navigable="false">      
-      <attribute id="13" name="categoryFoursquareDao"/>      
-      <multiplicity id="14" minimum="0" maximum="1"/>    
+      <attribute id="9" name="categoryFoursquareDao"/>      
+      <multiplicity id="10" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="3" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <generalization id="15">    
-    <end type="SOURCE" refId="6"/>    
-    <end type="TARGET" refId="4"/>  
-  </generalization>  
-  <generalization id="16">    
-    <end type="SOURCE" refId="1"/>    
-    <end type="TARGET" refId="2"/>  
-  </generalization>  
-  <association id="17">    
+  <association id="11">    
     <end type="SOURCE" refId="7" navigable="false">      
-      <attribute id="18" name="poiJdbcDao"/>      
-      <multiplicity id="19" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="6" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <generalization id="20">    
-    <end type="SOURCE" refId="5"/>    
-    <end type="TARGET" refId="4"/>  
-  </generalization>  
-  <association id="21">    
-    <end type="SOURCE" refId="7" navigable="false">      
-      <attribute id="22" name="categoryJdbcDao"/>      
-      <multiplicity id="23" minimum="0" maximum="1"/>    
+      <attribute id="12" name="categoryJdbcDao"/>      
+      <multiplicity id="13" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="5" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
+  <generalization id="14">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="4"/>  
+  </generalization>  
+  <association id="15">    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="16" name="poiFoursquareDao"/>      
+      <multiplicity id="17" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="18">    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="19" name="poiJdbcDao"/>      
+      <multiplicity id="20" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="21">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="2"/>  
+  </generalization>  
+  <generalization id="22">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="4"/>  
+  </generalization>  
+  <generalization id="23">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="2"/>  
+  </generalization>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
     accessors="true" visibility="true">    
     <attributes public="false" package="false" protected="false" private="false" static="false"/>    
