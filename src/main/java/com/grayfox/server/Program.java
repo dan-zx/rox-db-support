@@ -17,63 +17,67 @@ package com.grayfox.server;
 
 import java.util.Scanner;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-
 import com.grayfox.server.config.MainConfig;
 import com.grayfox.server.domain.Location;
 import com.grayfox.server.service.PoiService;
+import com.grayfox.server.util.Messages;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class Program {
 
-    private static final String USAGE = "Usage: { add [ location1;location2... ] | update [ pois | categories | all ] | quit }";
-    private static final String INVALID_OPT = "Invalid option";
     private static final Logger LOGGER = LoggerFactory.getLogger(Program.class);
-    private static final Scanner CONSOLE = new Scanner(System.in);
 
     public static void main(String[] args) {
         try (AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(MainConfig.class)) {
-            PoiService poiService = applicationContext.getBean(PoiService.class);
-            programmLoop: while (true) {
-                System.out.println(USAGE);
-                String[] arguments = CONSOLE.nextLine().split(" ");
-                if (arguments.length > 0) {
-                    switch (arguments[0]) {
-                        case "add":
-                            String[] locationStrs = arguments[1].split(";");
-                            Location[] locations = new Location[locationStrs.length];
-                            for (int i = 0; i < locations.length; i++) locations[i] = Location.parse(locationStrs[i]);
-                            poiService.addPois(locations);
-                            break;
-                        case "update":
-                            switch (arguments[1]) {
-                                case "pois":
-                                    poiService.updatePois();
-                                    break;
-                                case "categories":
-                                    poiService.updateCategories();
-                                    break;
-                                case "all":
-                                    poiService.updateCategories();
-                                    poiService.updatePois();
-                                    break;
-                                default:
-                                    System.out.println(INVALID_OPT);
-                                    break;
-                            }
-                            break;
-                        case "quit": break programmLoop;
-                        default:
-                            System.out.println(INVALID_OPT);
-                            break;
-                    }
-                } else System.out.println(INVALID_OPT);
-            }
+            new Program().execute(applicationContext, new Scanner(System.in));
         } catch (Exception ex) {
             LOGGER.error("Error during execution", ex);
         }
-        System.out.println("Done");
+    }
+
+    public void execute(ApplicationContext applicationContext, Scanner input) {
+        PoiService poiService = applicationContext.getBean(PoiService.class);
+        programmLoop: while (true) {
+            System.out.println(Messages.get("program.usage"));
+            String[] arguments = input.nextLine().split(" ");
+            switch (arguments[0]) {
+                case "add":
+                    String[] locationStrs = arguments[1].split(";");
+                    Location[] locations = new Location[locationStrs.length];
+                    for (int i = 0; i < locations.length; i++) locations[i] = Location.parse(locationStrs[i]);
+                    poiService.addPois(locations);
+                    break;
+                case "update":
+                    if (arguments.length == 2) {
+                        switch (arguments[1]) {
+                            case "pois":
+                                poiService.updatePois();
+                                break;
+                            case "categories":
+                                poiService.updateCategories();
+                                break;
+                            case "all":
+                                poiService.updateCategories();
+                                poiService.updatePois();
+                                break;
+                            default:
+                                System.out.println(Messages.get("program.invalid.option"));
+                                break;
+                        }
+                    } else System.out.println(Messages.get("program.invalid.option"));
+                    break;
+                case "quit":
+                    System.out.println(Messages.get("program.finish"));
+                    break programmLoop;
+                default:
+                    System.out.println(Messages.get("program.invalid.option"));
+                    break;
+            }
+        }
     }
 }
