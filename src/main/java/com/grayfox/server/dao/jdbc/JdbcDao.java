@@ -31,7 +31,7 @@ abstract class JdbcDao {
     private JdbcTemplate jdbcTemplate;
 
     @PostConstruct
-    private void onPostConstruct() {
+    protected void init() {
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
