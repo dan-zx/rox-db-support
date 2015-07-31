@@ -51,6 +51,8 @@ public class PoiServiceTest {
     @Before
     public void setUp() {
         assertThat(poiService).isNotNull();
+        assertThat(poiJdbcDao).isNotNull();
+        assertThat(categoryJdbcDao).isNotNull();
     }
 
     @Test
