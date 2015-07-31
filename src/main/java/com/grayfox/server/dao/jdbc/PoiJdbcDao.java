@@ -63,7 +63,7 @@ public class PoiJdbcDao extends JdbcDao {
         });
     }
 
-    public List<Category> fetchCategoriesByPoiFoursquareId(String foursquareId) {
+    private List<Category> fetchCategoriesByPoiFoursquareId(String foursquareId) {
         return getJdbcTemplate().query(getQuery("categoriesByPoiFoursquareId"), 
                 (ResultSet rs, int i) -> {
                     Category category = new Category();
