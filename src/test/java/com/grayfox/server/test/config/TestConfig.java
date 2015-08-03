@@ -51,7 +51,7 @@ public class TestConfig {
     @Configuration
     @EnableTransactionManagement
     @ComponentScan(basePackages = { 
-            "com.grayfox.server.test.dao.*",
+            "com.grayfox.server.test.dao.foursquare",
             "com.grayfox.server.dao.jdbc",
             "com.grayfox.server.service"})
     public static class BeanConfig {

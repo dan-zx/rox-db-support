@@ -51,19 +51,23 @@ public class Program {
                     Location[] locations = new Location[locationStrs.length];
                     for (int i = 0; i < locations.length; i++) locations[i] = Location.parse(locationStrs[i]);
                     poiService.addPois(locations);
+                    System.out.println(Messages.get("program.op.ok"));
                     break;
                 case "update":
                     if (arguments.length == 2) {
                         switch (arguments[1]) {
                             case "pois":
                                 poiService.updatePois();
+                                System.out.println(Messages.get("program.op.ok"));
                                 break;
                             case "categories":
                                 poiService.updateCategories();
+                                System.out.println(Messages.get("program.op.ok"));
                                 break;
                             case "all":
                                 poiService.updateCategories();
                                 poiService.updatePois();
+                                System.out.println(Messages.get("program.op.ok"));
                                 break;
                             default:
                                 System.out.println(Messages.get("program.invalid.option"));
