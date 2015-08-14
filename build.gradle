@@ -30,7 +30,7 @@ repositories {
 }
 
 ext {
-    neo4jVersion  = '2.2.3'
+    neo4jVersion  = '2.2.4'
     slf4jVersion  = '1.7.12'
     springVersion = '4.1.7.RELEASE'
 }
