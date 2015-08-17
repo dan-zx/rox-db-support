@@ -25,13 +25,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class CategoryFoursquareDao extends FoursquareDao {
 
-    public List<Category> fetchAll() {
+    public List<Category> findAll() {
         List<Category> result = new ArrayList<>();
         getCategoryCatalog().forEach((categoryId, category) -> result.add(category));
         return result;
     }
 
-    public Category fetchByFoursquareId(String foursquareId) {
+    public Category findByFoursquareId(String foursquareId) {
         return getCategoryCatalog().get(foursquareId);
     }
 }

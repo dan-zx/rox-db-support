@@ -48,7 +48,7 @@ public class PoiService {
     @Transactional
     public void addPois(Location... locations) {
         LOGGER.info("Retrieving POIs from Foursquare...");
-        List<Poi> pois = poiFoursquareDao.fetchNearLocations(locations);
+        List<Poi> pois = poiFoursquareDao.findNearLocations(locations);
         Set<Category> categories = new HashSet<>();
         pois.forEach(poi -> categories.addAll(poi.getCategories()));
         LOGGER.info("Saving POIs...");
@@ -68,7 +68,7 @@ public class PoiService {
         List<Poi> pois = poiJdbcDao.findAll();
         LOGGER.info("Updating POIs info from Foursquare...");
         for (Poi poi : pois) {
-            Poi temp = poiFoursquareDao.fetchByFoursquareId(poi.getFoursquareId());
+            Poi temp = poiFoursquareDao.findByFoursquareId(poi.getFoursquareId());
             poi.setName(temp.getName());
             poi.setLocation(temp.getLocation());
             poi.setFoursquareId(temp.getFoursquareId());
@@ -82,10 +82,10 @@ public class PoiService {
 
     @Transactional
     public void updateCategories() {
-        List<Category> categories = categoryJdbcDao.fetchAll();
+        List<Category> categories = categoryJdbcDao.findAll();
         LOGGER.info("Updating Categories info from Foursquare...");
         for (Category category : categories) {
-            Category temp = categoryFoursquareDao.fetchByFoursquareId(category.getFoursquareId());
+            Category temp = categoryFoursquareDao.findByFoursquareId(category.getFoursquareId());
             category.setDefaultName(temp.getDefaultName());
             category.setSpanishName(temp.getSpanishName());
             category.setIconUrl(temp.getIconUrl());

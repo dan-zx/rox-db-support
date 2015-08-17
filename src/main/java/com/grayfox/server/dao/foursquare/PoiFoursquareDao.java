@@ -38,7 +38,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class PoiFoursquareDao extends FoursquareDao {
 
-    public List<Poi> fetchNearLocations(Location... locations) {
+    public List<Poi> findNearLocations(Location... locations) {
         FoursquareApi foursquareApi = getFoursquareApi();
         List<Poi> pois = new ArrayList<>(locations.length);
         for (Location location : locations) {
@@ -55,7 +55,7 @@ public class PoiFoursquareDao extends FoursquareDao {
         return pois;
     }
 
-    public Poi fetchByFoursquareId(String foursquareId) {
+    public Poi findByFoursquareId(String foursquareId) {
         Result<Venue> venueResult = getFoursquareApi().getVenue(foursquareId);
         if (venueResult.getMeta().getCode() == 200) return toPoi(venueResult.getResponse());
         else throw new DaoException.Builder()

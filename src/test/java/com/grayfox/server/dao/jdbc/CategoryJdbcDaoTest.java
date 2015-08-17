@@ -55,7 +55,7 @@ public class CategoryJdbcDaoTest {
         category.setSpanishName("Plaza");
         category.setIconUrl("https://ss3.4sqi.net/img/categories_v2/parks_outdoors/plaza_88.png");
 
-        assertThat(categoryJdbcDao.fetchAll()).isNotNull().isEmpty();
+        assertThat(categoryJdbcDao.findAll()).isNotNull().isEmpty();
 
         List<Category> expectedCategories = Arrays.asList(category);
 
@@ -64,13 +64,13 @@ public class CategoryJdbcDaoTest {
 
         assertThat(category.getId()).isNotNull();
         assertThat(categoryJdbcDao.exists(category.getFoursquareId())).isTrue();
-        assertThat(categoryJdbcDao.fetchAll()).isNotNull().isNotEmpty().doesNotContainNull().hasSameSizeAs(expectedCategories).containsOnlyElementsOf(expectedCategories);
+        assertThat(categoryJdbcDao.findAll()).isNotNull().isNotEmpty().doesNotContainNull().hasSameSizeAs(expectedCategories).containsOnlyElementsOf(expectedCategories);
 
         category.setDefaultName("OtherName");
 
         // update
         categoryJdbcDao.update(category);
 
-        assertThat(categoryJdbcDao.fetchAll()).isNotNull().isNotEmpty().doesNotContainNull().hasSameSizeAs(expectedCategories).containsOnlyElementsOf(expectedCategories);
+        assertThat(categoryJdbcDao.findAll()).isNotNull().isNotEmpty().doesNotContainNull().hasSameSizeAs(expectedCategories).containsOnlyElementsOf(expectedCategories);
     }
 }

@@ -192,6 +192,6 @@ public class PoiServiceTest {
         category2.setSpanishName("Restaurante argentino");
         category2.setIconUrl("https://ss3.4sqi.net/img/categories_v2/food/argentinian_88.png");
 
-        assertThat(categoryJdbcDao.fetchAll()).isNotNull().isNotEmpty().doesNotContainNull().hasSameSizeAs(expectedCategories).containsOnlyElementsOf(expectedCategories);
+        assertThat(categoryJdbcDao.findAll()).isNotNull().isNotEmpty().doesNotContainNull().hasSameSizeAs(expectedCategories).containsOnlyElementsOf(expectedCategories);
     }
 }

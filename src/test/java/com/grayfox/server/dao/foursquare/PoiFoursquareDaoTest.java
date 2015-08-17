@@ -49,7 +49,7 @@ public class PoiFoursquareDaoTest {
     }
 
     @Test
-    public void testFetchNearLocations() {
+    public void testFindNearLocations() {
         Poi p1 = new Poi();
         p1.setFoursquareId("4ba952daf964a520d81e3ae3");
         p1.setName("Zócalo");
@@ -104,20 +104,20 @@ public class PoiFoursquareDaoTest {
 
         List<Poi> expectedPois = Arrays.asList(p1, p2, p3, p4);
 
-        List<Poi> actualPois = poiFoursquareDao.fetchNearLocations(Location.parse("19.043651,-98.197968"), Location.parse("19.054369,-98.283627"));
+        List<Poi> actualPois = poiFoursquareDao.findNearLocations(Location.parse("19.043651,-98.197968"), Location.parse("19.054369,-98.283627"));
 
         assertThat(actualPois).isNotNull().isNotEmpty().containsOnlyElementsOf(expectedPois);
     }
 
     @Test
-    public void testErrorInFetchNearLocations() {
-        assertThatThrownBy(() -> poiFoursquareDao.fetchNearLocations(Location.parse("0,0")))
+    public void testErrorInFindNearLocations() {
+        assertThatThrownBy(() -> poiFoursquareDao.findNearLocations(Location.parse("0,0")))
             .isInstanceOf(DaoException.class)
             .hasMessageStartingWith("Internal error while requesting Foursquare data. Message:");
     }
 
     @Test
-    public void testFetchByFoursquareId() {
+    public void testFindByFoursquareId() {
         Poi expectedPoi = new Poi();
         expectedPoi.setFoursquareId("4c09270ea1b32d7f172297f0");
         expectedPoi.setName("Las Quekas");
@@ -131,14 +131,14 @@ public class PoiFoursquareDaoTest {
         category.setIconUrl("https://ss3.4sqi.net/img/categories_v2/food/breakfast_88.png");
         expectedPoi.setCategories(new HashSet<>(Arrays.asList(category)));
 
-        Poi actualPoi = poiFoursquareDao.fetchByFoursquareId(expectedPoi.getFoursquareId());
+        Poi actualPoi = poiFoursquareDao.findByFoursquareId(expectedPoi.getFoursquareId());
 
         assertThat(actualPoi).isNotNull().isEqualTo(expectedPoi);
     }
 
     @Test
-    public void testErrorInFetchByFoursquareId() {
-        assertThatThrownBy(() -> poiFoursquareDao.fetchByFoursquareId("unknown"))
+    public void testErrorInFindByFoursquareId() {
+        assertThatThrownBy(() -> poiFoursquareDao.findByFoursquareId("unknown"))
             .isInstanceOf(DaoException.class)
             .hasMessageStartingWith("Internal error while requesting Foursquare data. Message:");
     }

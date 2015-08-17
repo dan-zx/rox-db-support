@@ -51,7 +51,7 @@ public class MockPoiFoursquareDao extends PoiFoursquareDao {
     }
 
     @Override
-    public List<Poi> fetchNearLocations(Location... locations) {
+    public List<Poi> findNearLocations(Location... locations) {
         boolean hasOneLocation = false;
         if (locations.length > 0) {
             for (Location location : locations) {
@@ -68,11 +68,11 @@ public class MockPoiFoursquareDao extends PoiFoursquareDao {
                 .setStatus(HttpStatus.INTERNAL_SERVER_ERROR.toString())
                 .setBody(Utils.getContentFromFileInClasspath("responses/generic_error.json")));
         }
-        return super.fetchNearLocations(locations);
+        return super.findNearLocations(locations);
     }
 
     @Override
-    public Poi fetchByFoursquareId(String foursquareId) {
+    public Poi findByFoursquareId(String foursquareId) {
         if (SUPPORTED_VENUES.contains(foursquareId)) {
             mockWebServer.enqueue(new MockResponse()
                 .setStatus(HttpStatus.OK.toString())
@@ -82,6 +82,6 @@ public class MockPoiFoursquareDao extends PoiFoursquareDao {
                 .setStatus(HttpStatus.INTERNAL_SERVER_ERROR.toString())
                 .setBody(Utils.getContentFromFileInClasspath("responses/generic_error.json")));
         }
-        return super.fetchByFoursquareId(foursquareId);
+        return super.findByFoursquareId(foursquareId);
     }
 }

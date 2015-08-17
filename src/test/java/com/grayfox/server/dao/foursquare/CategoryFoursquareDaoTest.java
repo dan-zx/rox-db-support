@@ -44,7 +44,7 @@ public class CategoryFoursquareDaoTest {
     }
 
     @Test
-    public void testFetchAll() {
+    public void testFindAll() {
         Category c1 = new Category();
         c1.setFoursquareId("4bf58dd8d48988d164941735");
         c1.setDefaultName("Plaza");
@@ -70,20 +70,20 @@ public class CategoryFoursquareDaoTest {
         c4.setIconUrl("https://ss3.4sqi.net/img/categories_v2/food/argentinian_88.png");
 
         List<Category> expectedCategories = Arrays.asList(c1, c2, c3, c4);
-        List<Category> actualCategories = categoryFoursquareDao.fetchAll();
+        List<Category> actualCategories = categoryFoursquareDao.findAll();
 
         assertThat(actualCategories).isNotNull().isNotEmpty().containsOnlyElementsOf(expectedCategories);
     }
 
     @Test
-    public void testFetchByFoursquareId() {
+    public void testFindByFoursquareId() {
         Category expectedCategory = new Category();
         expectedCategory.setFoursquareId("4bf58dd8d48988d143941735");
         expectedCategory.setDefaultName("Breakfast Spot");
         expectedCategory.setSpanishName("Café");
         expectedCategory.setIconUrl("https://ss3.4sqi.net/img/categories_v2/food/breakfast_88.png");
 
-        Category actualCategory = categoryFoursquareDao.fetchByFoursquareId(expectedCategory.getFoursquareId());
+        Category actualCategory = categoryFoursquareDao.findByFoursquareId(expectedCategory.getFoursquareId());
 
         assertThat(actualCategory).isNotNull().isEqualTo(expectedCategory);
     }

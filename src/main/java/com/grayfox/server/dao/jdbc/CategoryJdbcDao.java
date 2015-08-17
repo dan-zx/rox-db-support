@@ -42,7 +42,7 @@ public class CategoryJdbcDao extends JdbcDao {
         categories.forEach(category -> save(category));
     }
 
-    public List<Category> fetchAll() {
+    public List<Category> findAll() {
         return getJdbcTemplate().query(getQuery("allCategories"), 
                 (ResultSet rs, int i) -> {
                     Category category = new Category();
