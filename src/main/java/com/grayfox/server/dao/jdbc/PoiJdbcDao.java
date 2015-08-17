@@ -20,11 +20,12 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
-import org.springframework.stereotype.Repository;
-
+import com.grayfox.server.dao.DaoException;
 import com.grayfox.server.domain.Category;
 import com.grayfox.server.domain.Location;
 import com.grayfox.server.domain.Poi;
+
+import org.springframework.stereotype.Repository;
 
 @Repository
 public class PoiJdbcDao extends JdbcDao {
@@ -33,12 +34,13 @@ public class PoiJdbcDao extends JdbcDao {
         List<Poi> pois = getJdbcTemplate().query(getQuery("allPois"), 
                 (ResultSet rs, int i) -> {
                     Poi poi = new Poi();
-                    poi.setName(rs.getString(1));
+                    poi.setId(rs.getLong(1));
+                    poi.setName(rs.getString(2));
                     poi.setLocation(new Location());
-                    poi.getLocation().setLatitude(rs.getDouble(2));
-                    poi.getLocation().setLongitude(rs.getDouble(3));
-                    poi.setFoursquareId(rs.getString(4));
-                    poi.setFoursquareRating(rs.getDouble(5));
+                    poi.getLocation().setLatitude(rs.getDouble(3));
+                    poi.getLocation().setLongitude(rs.getDouble(4));
+                    poi.setFoursquareId(rs.getString(5));
+                    poi.setFoursquareRating(rs.getDouble(6));
                     return poi;
                 });
         pois.forEach(poi -> poi.setCategories(new HashSet<>(fetchCategoriesByPoiFoursquareId(poi.getFoursquareId()))));
@@ -55,22 +57,34 @@ public class PoiJdbcDao extends JdbcDao {
 
     public void saveOrUpdate(Collection<Poi> pois) {
         pois.forEach(poi -> {
-            List<Boolean> exists = getJdbcTemplate().queryForList(getQuery("existsPoi"), Boolean.class, poi.getFoursquareId());
-            if (exists.isEmpty()) getJdbcTemplate().update(getQuery("createPoi"), poi.getName(), poi.getLocation().getLatitude(), poi.getLocation().getLongitude(), poi.getFoursquareId(), poi.getFoursquareRating());
-            else getJdbcTemplate().update(getQuery("updatePoi"), poi.getFoursquareId(), poi.getName(), poi.getLocation().getLatitude(), poi.getLocation().getLongitude(), poi.getFoursquareRating());
+            if (fetchIdByFoursquareId(poi.getFoursquareId()) == null) {
+                getJdbcTemplate().update(getQuery("createPoi"), poi.getName(), poi.getLocation().getLatitude(), poi.getLocation().getLongitude(), poi.getFoursquareId(), poi.getFoursquareRating());
+                poi.setId(fetchIdByFoursquareId(poi.getFoursquareId()));
+            } else getJdbcTemplate().update(getQuery("updatePoi"), poi.getFoursquareId(), poi.getName(), poi.getLocation().getLatitude(), poi.getLocation().getLongitude(), poi.getFoursquareRating());
             getJdbcTemplate().update(getQuery("deleteIsLinks"), poi.getFoursquareId());
             poi.getCategories().forEach(category -> getJdbcTemplate().update(getQuery("createIsLink"), poi.getFoursquareId(), category.getFoursquareId()));
         });
+    }
+
+    private Long fetchIdByFoursquareId(String foursquareId) {
+        List<Long> ids = getJdbcTemplate().queryForList(getQuery("poiIdByFoursquareId"), Long.class, foursquareId);
+        if (ids.size() > 1) {
+            throw new DaoException.Builder()
+                .messageKey("data.integrity.error")
+                .build();
+        }
+        return ids.isEmpty() ? null : ids.get(0);
     }
 
     private List<Category> fetchCategoriesByPoiFoursquareId(String foursquareId) {
         return getJdbcTemplate().query(getQuery("categoriesByPoiFoursquareId"), 
                 (ResultSet rs, int i) -> {
                     Category category = new Category();
-                    category.setDefaultName(rs.getString(1));
-                    category.setSpanishName(rs.getString(2));
-                    category.setIconUrl(rs.getString(3));
-                    category.setFoursquareId(rs.getString(4));
+                    category.setId(rs.getLong(1));
+                    category.setDefaultName(rs.getString(2));
+                    category.setSpanishName(rs.getString(3));
+                    category.setIconUrl(rs.getString(4));
+                    category.setFoursquareId(rs.getString(5));
                     return category;
                 }, foursquareId);
     }

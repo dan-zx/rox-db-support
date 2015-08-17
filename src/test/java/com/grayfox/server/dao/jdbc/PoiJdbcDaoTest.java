@@ -66,6 +66,7 @@ public class PoiJdbcDaoTest {
         // save
         poiJdbcDao.saveOrUpdate(expectedPois);
 
+        assertThat(p1.getId()).isNotNull();
         assertThat(poiJdbcDao.fetchAll()).isNotNull().isNotEmpty().containsOnlyElementsOf(expectedPois);
 
         p1.setName("Zócalo");
@@ -83,6 +84,7 @@ public class PoiJdbcDaoTest {
         // update and save
         poiJdbcDao.saveOrUpdate(expectedPois);
 
+        assertThat(p2.getId()).isNotNull();
         assertThat(poiJdbcDao.fetchAll()).isNotNull().isNotEmpty().containsOnlyElementsOf(expectedPois);
 
         p2.setName("Other");

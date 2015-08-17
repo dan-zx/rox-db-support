@@ -20,13 +20,13 @@
     <entry key="allPois">
         <![CDATA[
              MATCH (p:Poi)
-             RETURN p.name, p.latitude, p.longitude, p.foursquareId, p.foursquareRating
+             RETURN ID(p), p.name, p.latitude, p.longitude, p.foursquareId, p.foursquareRating
         ]]>
     </entry>
-    <entry key="existsPoi">
+    <entry key="poiIdByFoursquareId">
         <![CDATA[
-             MATCH (:Poi {foursquareId:{1}})
-             RETURN true
+             MATCH (p:Poi {foursquareId:{1}})
+             RETURN ID(p)
         ]]>
     </entry>
     <entry key="createPoi">
@@ -57,19 +57,19 @@
     <entry key="allCategories">
         <![CDATA[
              MATCH (c:Category)
-             RETURN c.defaultName, c.spanishName, c.iconUrl, c.foursquareId
+             RETURN ID(c), c.defaultName, c.spanishName, c.iconUrl, c.foursquareId
         ]]>
     </entry>
     <entry key="categoriesByPoiFoursquareId">
         <![CDATA[
              MATCH (:Poi {foursquareId:{1}})-[:IS]->(c:Category)
-             RETURN c.defaultName, c.spanishName, c.iconUrl, c.foursquareId
+             RETURN ID(c), c.defaultName, c.spanishName, c.iconUrl, c.foursquareId
         ]]>
     </entry>
-    <entry key="existsCategory">
+    <entry key="categoryIdByFoursquareId">
         <![CDATA[
-             MATCH (:Category {foursquareId:{1}})
-             RETURN true
+             MATCH (c:Category {foursquareId:{1}})
+             RETURN ID(c)
         ]]>
     </entry>
     <entry key="createCategory">

@@ -86,7 +86,15 @@ public class PoiServiceTest {
         category.setIconUrl("https://ss3.4sqi.net/img/categories_v2/food/argentinian_88.png");
         p2.setCategories(new HashSet<>(Arrays.asList(category)));
 
-        assertThat(poiJdbcDao.fetchAll()).isNotNull().isNotEmpty().containsOnlyElementsOf(Arrays.asList(p1, p2));
+        List<Poi> expectedPois = Arrays.asList(p1, p2);
+        List<Poi> actualPois = poiJdbcDao.fetchAll();
+
+        assertThat(actualPois).isNotNull().isNotEmpty().doesNotContainNull().hasSameSizeAs(expectedPois);
+
+        for (int i = 0; i < expectedPois.size(); i++) {
+            assertThat(actualPois.get(i)).isEqualToIgnoringGivenFields(expectedPois.get(i), "id", "categories");
+            assertThat(actualPois.get(i).getCategories()).usingElementComparatorIgnoringFields("id").containsOnlyElementsOf(expectedPois.get(i).getCategories());
+        }
     }
 
     @Test
@@ -112,7 +120,14 @@ public class PoiServiceTest {
         poi.setCategories(new HashSet<>(Arrays.asList(category2)));
 
         categoryJdbcDao.saveOrUpdate(Arrays.asList(category1, category2));
+
+        assertThat(category1.getId()).isNotNull();
+        assertThat(category2.getId()).isNotNull();
+
         poiJdbcDao.saveOrUpdate(Arrays.asList(poi));
+
+        assertThat(poi.getId()).isNotNull();
+
         poiService.updatePois();
 
         poi.setFoursquareId("4c09270ea1b32d7f172297f0");
@@ -121,7 +136,9 @@ public class PoiServiceTest {
         poi.setFoursquareRating(8.5);
         poi.setCategories(new HashSet<>(Arrays.asList(category1)));
 
-        assertThat(poiJdbcDao.fetchAll()).isNotNull().isNotEmpty().containsOnlyElementsOf(Arrays.asList(poi));
+        List<Poi> expectedPois = Arrays.asList(poi);
+
+        assertThat(poiJdbcDao.fetchAll()).isNotNull().isNotEmpty().doesNotContainNull().hasSameSizeAs(expectedPois).containsOnlyElementsOf(expectedPois);
     }
 
     @Test
@@ -142,6 +159,10 @@ public class PoiServiceTest {
         List<Category> expectedCategories = Arrays.asList(category1, category2);
 
         categoryJdbcDao.saveOrUpdate(expectedCategories);
+
+        assertThat(category1.getId()).isNotNull();
+        assertThat(category2.getId()).isNotNull();
+
         poiService.updateCategories();
 
         category1.setFoursquareId("4bf58dd8d48988d143941735");
@@ -154,6 +175,6 @@ public class PoiServiceTest {
         category2.setSpanishName("Restaurante argentino");
         category2.setIconUrl("https://ss3.4sqi.net/img/categories_v2/food/argentinian_88.png");
 
-        assertThat(categoryJdbcDao.fetchAll()).isNotNull().isNotEmpty().containsOnlyElementsOf(expectedCategories);
+        assertThat(categoryJdbcDao.fetchAll()).isNotNull().isNotEmpty().doesNotContainNull().hasSameSizeAs(expectedCategories).containsOnlyElementsOf(expectedCategories);
     }
 }

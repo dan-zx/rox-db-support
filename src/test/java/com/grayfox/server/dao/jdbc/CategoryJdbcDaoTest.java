@@ -63,10 +63,11 @@ public class CategoryJdbcDaoTest {
         // save
         categoryJdbcDao.saveOrUpdate(expectedCategories);
 
+        assertThat(c1.getId()).isNotNull();
         assertThat(categoryJdbcDao.fetchAll()).isNotNull().isNotEmpty().containsOnlyElementsOf(expectedCategories);
 
         c1.setDefaultName("OtherName");
-        
+
         Category c2 = new Category();
         c2.setFoursquareId("4deefb944765f83613cdba6e");
         c2.setDefaultName("Historic Site");
@@ -78,6 +79,7 @@ public class CategoryJdbcDaoTest {
         // update and save
         categoryJdbcDao.saveOrUpdate(expectedCategories);
 
+        assertThat(c2.getId()).isNotNull();
         assertThat(categoryJdbcDao.fetchAll()).isNotNull().isNotEmpty().containsOnlyElementsOf(expectedCategories);
 
         c2.setDefaultName("newName");

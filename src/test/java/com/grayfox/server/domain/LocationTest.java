@@ -27,7 +27,7 @@ public class LocationTest {
         Location expectedLocation = new Location();
         expectedLocation.setLatitude(19.78);
         expectedLocation.setLongitude(-98.23);
-        
+
         Location actualLocation = Location.parse(expectedLocation.getLatitude() + "," + expectedLocation.getLongitude());
 
         assertThat(actualLocation).isNotNull().isEqualTo(expectedLocation);
@@ -42,7 +42,7 @@ public class LocationTest {
         assertThatThrownBy(() -> Location.parse("xx,xx"))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessageContaining("Incorrect location format");
-        
+
         assertThatThrownBy(() -> Location.parse("a string"))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessageContaining("Incorrect location format");

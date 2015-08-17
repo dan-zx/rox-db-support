@@ -75,6 +75,7 @@ public class PoiFoursquareDao extends FoursquareDao {
         Set<Category> myCategories = new HashSet<>();
         for (com.foursquare4j.response.Category category : venue.getCategories()) {
             Category myCategory = getCategoryCatalog().get(category.getId());
+            myCategory.setId(null);
             myCategories.add(myCategory);
         }
         poi.setCategories(myCategories);

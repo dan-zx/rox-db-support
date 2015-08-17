@@ -15,10 +15,9 @@
  */
 package com.grayfox.server.domain;
 
-import java.io.Serializable;
 import java.util.Set;
 
-public class Poi implements Serializable {
+public class Poi extends Entity<Long> {
 
     private static final long serialVersionUID = 7058036287180141517L;
 
@@ -71,7 +70,7 @@ public class Poi implements Serializable {
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = 1;
+        int result = super.hashCode();
         result = prime * result + ((categories == null) ? 0 : categories.hashCode());
         result = prime * result + ((foursquareId == null) ? 0 : foursquareId.hashCode());
         result = prime * result + ((foursquareRating == null) ? 0 : foursquareRating.hashCode());
@@ -83,7 +82,7 @@ public class Poi implements Serializable {
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        if (obj == null) return false;
+        if (!super.equals(obj)) return false;
         if (getClass() != obj.getClass()) return false;
         Poi other = (Poi) obj;
         if (categories == null) {
@@ -106,6 +105,6 @@ public class Poi implements Serializable {
 
     @Override
     public String toString() {
-        return "Poi [name=" + name + ", location=" + location + ", foursquareId=" + foursquareId + ", foursquareRating=" + foursquareRating + ", categories=" + categories + "]";
+        return "Poi [id=" + getId() + ", name=" + name + ", location=" + location + ", foursquareId=" + foursquareId + ", foursquareRating=" + foursquareRating + ", categories=" + categories + "]";
     }
 }
