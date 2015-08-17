@@ -58,16 +58,33 @@ public class PoiServiceTest {
     @Test
     @Transactional
     public void testAddPois() {
-        poiService.addPois(Location.parse("19.054369,-98.283627"));
-
+        Category category = new Category();
+        category.setFoursquareId("4bf58dd8d48988d143941735");
+        category.setDefaultName("NOT UPDATED");
+        category.setSpanishName("NOT UPDATED");
+        category.setIconUrl("https://88.png");
+        
         Poi p1 = new Poi();
         p1.setFoursquareId("4c09270ea1b32d7f172297f0");
+        p1.setName("NOT UPDATED");
+        p1.setLocation(Location.parse("19.34,-98.745"));
+        p1.setFoursquareRating(6.4);
+        p1.setCategories(new HashSet<>(Arrays.asList(category)));
+
+        categoryJdbcDao.save(category);
+
+        assertThat(category.getId()).isNotNull();
+
+        poiJdbcDao.save(p1);
+
+        assertThat(p1.getId()).isNotNull();
+
+        poiService.addPois(Location.parse("19.054369,-98.283627"));
+
         p1.setName("Las Quekas");
         p1.setLocation(Location.parse("19.050907767250518,-98.28156293330026"));
         p1.setFoursquareRating(8.5);
 
-        Category category = new Category();
-        category.setFoursquareId("4bf58dd8d48988d143941735");
         category.setDefaultName("Breakfast Spot");
         category.setSpanishName("Café");
         category.setIconUrl("https://ss3.4sqi.net/img/categories_v2/food/breakfast_88.png");
@@ -87,7 +104,7 @@ public class PoiServiceTest {
         p2.setCategories(new HashSet<>(Arrays.asList(category)));
 
         List<Poi> expectedPois = Arrays.asList(p1, p2);
-        List<Poi> actualPois = poiJdbcDao.fetchAll();
+        List<Poi> actualPois = poiJdbcDao.findAll();
 
         assertThat(actualPois).isNotNull().isNotEmpty().doesNotContainNull().hasSameSizeAs(expectedPois);
 
@@ -119,12 +136,12 @@ public class PoiServiceTest {
         category2.setIconUrl("https://ss3.4sqi.net/img/categories_v2/food/argentinian_88.png");
         poi.setCategories(new HashSet<>(Arrays.asList(category2)));
 
-        categoryJdbcDao.saveOrUpdate(Arrays.asList(category1, category2));
+        categoryJdbcDao.save(Arrays.asList(category1, category2));
 
         assertThat(category1.getId()).isNotNull();
         assertThat(category2.getId()).isNotNull();
 
-        poiJdbcDao.saveOrUpdate(Arrays.asList(poi));
+        poiJdbcDao.save(poi);
 
         assertThat(poi.getId()).isNotNull();
 
@@ -138,7 +155,7 @@ public class PoiServiceTest {
 
         List<Poi> expectedPois = Arrays.asList(poi);
 
-        assertThat(poiJdbcDao.fetchAll()).isNotNull().isNotEmpty().doesNotContainNull().hasSameSizeAs(expectedPois).containsOnlyElementsOf(expectedPois);
+        assertThat(poiJdbcDao.findAll()).isNotNull().isNotEmpty().doesNotContainNull().hasSameSizeAs(expectedPois).containsOnlyElementsOf(expectedPois);
     }
 
     @Test
@@ -158,7 +175,7 @@ public class PoiServiceTest {
 
         List<Category> expectedCategories = Arrays.asList(category1, category2);
 
-        categoryJdbcDao.saveOrUpdate(expectedCategories);
+        categoryJdbcDao.save(expectedCategories);
 
         assertThat(category1.getId()).isNotNull();
         assertThat(category2.getId()).isNotNull();

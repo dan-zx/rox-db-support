@@ -17,7 +17,6 @@ package com.grayfox.server.dao.jdbc;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -52,47 +51,27 @@ public class PoiJdbcDaoTest {
     @Test
     @Transactional
     public void testCrud() {
-        Poi p1 = new Poi();
-        p1.setFoursquareId("4ba952daf964a520d81e3ae3");
-        p1.setName("Zócalo");
-        p1.setLocation(Location.parse("19.043884224818616,-98.19828987121582"));
-        p1.setFoursquareRating(9.2);
-        p1.setCategories(new HashSet<>());
+        Poi poi = new Poi();
+        poi.setFoursquareId("4ba952daf964a520d81e3ae3");
+        poi.setName("Zócalo");
+        poi.setLocation(Location.parse("19.043884224818616,-98.19828987121582"));
+        poi.setFoursquareRating(9.2);
+        poi.setCategories(new HashSet<>());
 
-        assertThat(poiJdbcDao.fetchAll()).isNotNull().isEmpty();
-
-        List<Poi> expectedPois = new ArrayList<>(Arrays.asList(p1));
+        List<Poi> expectedPois = Arrays.asList(poi);
 
         // save
-        poiJdbcDao.saveOrUpdate(expectedPois);
+        poiJdbcDao.save(poi);
 
-        assertThat(p1.getId()).isNotNull();
-        assertThat(poiJdbcDao.fetchAll()).isNotNull().isNotEmpty().containsOnlyElementsOf(expectedPois);
+        assertThat(poi.getId()).isNotNull();
+        assertThat(poiJdbcDao.exists(poi.getFoursquareId())).isTrue();
+        assertThat(poiJdbcDao.findAll()).isNotNull().isNotEmpty().doesNotContainNull().hasSameSizeAs(expectedPois).containsOnlyElementsOf(expectedPois);
 
-        p1.setName("Zócalo");
-        p1.setFoursquareRating(8.2);
-
-        Poi p2 = new Poi();
-        p2.setFoursquareId("4f496cd5e4b07165fa2d73af");
-        p2.setName("Centro Histórico");
-        p2.setLocation(Location.parse("19.043883250110966,-98.19796749086107"));
-        p2.setFoursquareRating(9.1);
-        p2.setCategories(new HashSet<>());
-
-        expectedPois.add(p2);
-
-        // update and save
-        poiJdbcDao.saveOrUpdate(expectedPois);
-
-        assertThat(p2.getId()).isNotNull();
-        assertThat(poiJdbcDao.fetchAll()).isNotNull().isNotEmpty().containsOnlyElementsOf(expectedPois);
-
-        p2.setName("Other");
-        p2.setFoursquareRating(7.2);
+        poi.setName("OtherName");
 
         // update
-        poiJdbcDao.update(Arrays.asList(p2));
+        poiJdbcDao.update(poi);
 
-        assertThat(poiJdbcDao.fetchAll()).isNotNull().isNotEmpty().containsOnlyElementsOf(expectedPois);
+        assertThat(poiJdbcDao.findAll()).isNotNull().isNotEmpty().doesNotContainNull().hasSameSizeAs(expectedPois).containsOnlyElementsOf(expectedPois);
     }
 }

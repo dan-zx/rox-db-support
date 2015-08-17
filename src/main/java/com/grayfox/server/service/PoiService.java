@@ -52,14 +52,20 @@ public class PoiService {
         Set<Category> categories = new HashSet<>();
         pois.forEach(poi -> categories.addAll(poi.getCategories()));
         LOGGER.info("Saving POIs...");
-        categoryJdbcDao.saveOrUpdate(categories);
-        poiJdbcDao.saveOrUpdate(pois);
+        for (Category category : categories) {
+            if (!categoryJdbcDao.exists(category.getFoursquareId())) categoryJdbcDao.save(category);
+            else categoryJdbcDao.update(category);
+        }
+        for (Poi poi : pois) {
+            if (!poiJdbcDao.exists(poi.getFoursquareId())) poiJdbcDao.save(poi);
+            else poiJdbcDao.update(poi);
+        }
         LOGGER.info("POIs saved");
     }
 
     @Transactional
     public void updatePois() {
-        List<Poi> pois = poiJdbcDao.fetchAll();
+        List<Poi> pois = poiJdbcDao.findAll();
         LOGGER.info("Updating POIs info from Foursquare...");
         for (Poi poi : pois) {
             Poi temp = poiFoursquareDao.fetchByFoursquareId(poi.getFoursquareId());

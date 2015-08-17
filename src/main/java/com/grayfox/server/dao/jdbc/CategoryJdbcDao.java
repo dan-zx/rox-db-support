@@ -27,6 +27,21 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class CategoryJdbcDao extends JdbcDao {
 
+    public void save(Category category) {
+        getJdbcTemplate().update(getQuery("createCategory"), category.getDefaultName(), category.getSpanishName(), category.getIconUrl(), category.getFoursquareId());
+        List<Long> ids = getJdbcTemplate().queryForList(getQuery("categoryIdByFoursquareId"), Long.class, category.getFoursquareId());
+        if (ids.size() > 1) {
+            throw new DaoException.Builder()
+                .messageKey("data.integrity.error")
+                .build();
+        }
+        category.setId(ids.get(0));
+    }
+
+    public void save(Collection<Category> categories) {
+        categories.forEach(category -> save(category));
+    }
+
     public List<Category> fetchAll() {
         return getJdbcTemplate().query(getQuery("allCategories"), 
                 (ResultSet rs, int i) -> {
@@ -40,27 +55,21 @@ public class CategoryJdbcDao extends JdbcDao {
                 });
     }
 
-    public void update(Collection<Category> categories) {
-        categories.forEach(category -> getJdbcTemplate().update(getQuery("updateCategory"), category.getFoursquareId(), category.getDefaultName(), category.getSpanishName(), category.getIconUrl()));
-    }
-
-    public void saveOrUpdate(Collection<Category> categories) {
-        categories.forEach(category -> {
-            if (fetchIdByFoursquareId(category.getFoursquareId()) == null) {
-                getJdbcTemplate().update(getQuery("createCategory"), category.getDefaultName(), category.getSpanishName(), category.getIconUrl(), category.getFoursquareId());
-                category.setId(fetchIdByFoursquareId(category.getFoursquareId()));
-            }
-            else getJdbcTemplate().update(getQuery("updateCategory"), category.getFoursquareId(), category.getDefaultName(), category.getSpanishName(), category.getIconUrl());
-        });
-    }
-
-    private Long fetchIdByFoursquareId(String foursquareId) {
+    public boolean exists(String foursquareId) {
         List<Long> ids = getJdbcTemplate().queryForList(getQuery("categoryIdByFoursquareId"), Long.class, foursquareId);
         if (ids.size() > 1) {
             throw new DaoException.Builder()
                 .messageKey("data.integrity.error")
                 .build();
         }
-        return ids.isEmpty() ? null : ids.get(0);
+        return !ids.isEmpty();
+    }
+
+    public void update(Category category) {
+        getJdbcTemplate().update(getQuery("updateCategory"), category.getFoursquareId(), category.getDefaultName(), category.getSpanishName(), category.getIconUrl());
+    }
+
+    public void update(Collection<Category> categories) {
+        categories.forEach(category -> update(category));
     }
 }
