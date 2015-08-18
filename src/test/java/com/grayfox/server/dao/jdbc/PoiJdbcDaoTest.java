@@ -60,11 +60,14 @@ public class PoiJdbcDaoTest {
 
         List<Poi> expectedPois = Arrays.asList(poi);
 
-        // save
+        // create
         poiJdbcDao.save(poi);
 
         assertThat(poi.getId()).isNotNull();
+
+        // read
         assertThat(poiJdbcDao.exists(poi.getFoursquareId())).isTrue();
+        assertThat(poiJdbcDao.findByFoursquareId(poi.getFoursquareId())).isNotNull().isEqualTo(poi);
         assertThat(poiJdbcDao.findAll()).isNotNull().isNotEmpty().doesNotContainNull().hasSameSizeAs(expectedPois).containsOnlyElementsOf(expectedPois);
 
         poi.setName("OtherName");
@@ -72,6 +75,11 @@ public class PoiJdbcDaoTest {
         // update
         poiJdbcDao.update(poi);
 
-        assertThat(poiJdbcDao.findAll()).isNotNull().isNotEmpty().doesNotContainNull().hasSameSizeAs(expectedPois).containsOnlyElementsOf(expectedPois);
+        assertThat(poiJdbcDao.findByFoursquareId(poi.getFoursquareId())).isNotNull().isEqualTo(poi);
+
+        // delete
+        poiJdbcDao.delete(poi);
+
+        assertThat(poiJdbcDao.findByFoursquareId(poi.getFoursquareId())).isNull();
     }
 }

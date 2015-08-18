@@ -26,7 +26,7 @@ import com.squareup.okhttp.mockwebserver.MockWebServer;
 
 import org.springframework.stereotype.Repository;
 
-@Repository
+@Repository("categoryFoursquareDao")
 public class MockCategoryFoursquareDao extends CategoryFoursquareDao {
 
     @Inject private MockWebServer mockWebServer;

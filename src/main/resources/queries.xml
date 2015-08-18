@@ -16,71 +16,108 @@
   ~ limitations under the License.
   -->
 <properties>
-    <!-- ///////////////////////////////////////// POI ///////////////////////////////////////// -->
-    <entry key="allPois">
-        <![CDATA[
-             MATCH (p:Poi)
-             RETURN ID(p), p.name, p.latitude, p.longitude, p.foursquareId, p.foursquareRating
-        ]]>
-    </entry>
-    <entry key="poiIdByFoursquareId">
-        <![CDATA[
-             MATCH (p:Poi {foursquareId:{1}})
-             RETURN ID(p)
-        ]]>
-    </entry>
-    <entry key="createPoi">
+    <entry key="Poi.save">
         <![CDATA[
              CREATE (:Poi {name:{1}, latitude:{2}, longitude:{3}, foursquareId:{4}, foursquareRating:{5}})
         ]]>
     </entry>
-    <entry key="createIsLink">
+    <entry key="Poi.createIsRelationship">
         <![CDATA[
              MATCH (p:Poi {foursquareId:{1}}), (c:Category {foursquareId:{2}})
              CREATE (p)-[:IS]->(c)
         ]]>
     </entry>
-    <entry key="updatePoi">
+    <entry key="Poi.findAll">
+        <![CDATA[
+             MATCH (p:Poi)
+             RETURN ID(p), p.name, p.latitude, p.longitude, p.foursquareId, p.foursquareRating
+        ]]>
+    </entry>
+    <entry key="Poi.findByFoursquareId">
+        <![CDATA[
+             MATCH (p:Poi {foursquareId:{1}})
+             RETURN ID(p), p.name, p.latitude, p.longitude, p.foursquareId, p.foursquareRating
+        ]]>
+    </entry>
+    <entry key="Poi.findIdByFoursquareId">
+        <![CDATA[
+             MATCH (p:Poi {foursquareId:{1}})
+             RETURN ID(p)
+        ]]>
+    </entry>
+    <entry key="Poi.update">
         <![CDATA[
              MATCH (p:Poi {foursquareId:{1}})
              SET p.name = {2}, p.latitude = {3}, p.longitude = {4}, p.foursquareRating = {5}
         ]]>
     </entry>
-    <entry key="deleteIsLinks">
+    <entry key="Poi.delete">
+        <![CDATA[
+             MATCH (p:Poi {foursquareId:{1}})
+             OPTIONAL MATCH (p:Poi {foursquareId:{1}})-[r]-()
+             DELETE p, r
+        ]]>
+    </entry>
+    <entry key="Poi.deleteAll">
+        <![CDATA[
+             MATCH (p:Poi)
+             OPTIONAL MATCH (p:Poi)-[r]-()
+             DELETE p, r
+        ]]>
+    </entry>
+    <entry key="Poi.deleteIsRelationships">
         <![CDATA[
              MATCH (:Poi {foursquareId:{1}})-[r:IS]->(:Category)
              DELETE r
         ]]>
     </entry>
-
-    <!-- ////////////////////////////////////// Category /////////////////////////////////////// -->
-    <entry key="allCategories">
+    <entry key="Category.save">
+        <![CDATA[
+             CREATE (:Category {defaultName:{1}, spanishName:{2}, iconUrl:{3}, foursquareId:{4}})
+        ]]>
+    </entry>
+    <entry key="Category.findAll">
         <![CDATA[
              MATCH (c:Category)
              RETURN ID(c), c.defaultName, c.spanishName, c.iconUrl, c.foursquareId
         ]]>
     </entry>
-    <entry key="categoriesByPoiFoursquareId">
+    <entry key="Category.findByPoiFoursquareId">
         <![CDATA[
              MATCH (:Poi {foursquareId:{1}})-[:IS]->(c:Category)
              RETURN ID(c), c.defaultName, c.spanishName, c.iconUrl, c.foursquareId
         ]]>
     </entry>
-    <entry key="categoryIdByFoursquareId">
+    <entry key="Category.findByFoursquareId">
+        <![CDATA[
+             MATCH (c:Category {foursquareId:{1}})
+             RETURN ID(c), c.defaultName, c.spanishName, c.iconUrl, c.foursquareId
+        ]]>
+    </entry>
+    <entry key="Category.findIdByFoursquareId">
         <![CDATA[
              MATCH (c:Category {foursquareId:{1}})
              RETURN ID(c)
         ]]>
     </entry>
-    <entry key="createCategory">
-        <![CDATA[
-             CREATE (:Category {defaultName:{1}, spanishName:{2}, iconUrl:{3}, foursquareId:{4}})
-        ]]>
-    </entry>
-    <entry key="updateCategory">
+    <entry key="Category.update">
         <![CDATA[
              MATCH (c:Category {foursquareId:{1}})
              SET c.defaultName = {2}, c.spanishName = {3}, c.iconUrl = {4}
+        ]]>
+    </entry>
+    <entry key="Category.delete">
+        <![CDATA[
+             MATCH (c:Category {foursquareId:{1}})
+             OPTIONAL MATCH (c:Category {foursquareId:{1}})-[r]-()
+             DELETE c, r
+        ]]>
+    </entry>
+    <entry key="Category.deleteAll">
+        <![CDATA[
+             MATCH (c:Category)
+             OPTIONAL MATCH (c:Category)-[r]-()
+             DELETE c, r
         ]]>
     </entry>
 </properties>

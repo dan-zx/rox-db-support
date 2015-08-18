@@ -65,8 +65,28 @@ public class Program {
                                 System.out.println(Messages.get("program.op.ok"));
                                 break;
                             case "all":
-                                poiService.updateCategories();
-                                poiService.updatePois();
+                                poiService.updateAll();
+                                System.out.println(Messages.get("program.op.ok"));
+                                break;
+                            default:
+                                System.out.println(Messages.get("program.invalid.option"));
+                                break;
+                        }
+                    } else System.out.println(Messages.get("program.invalid.option"));
+                    break;
+                case "delete":
+                    if (arguments.length == 2) {
+                        switch (arguments[1]) {
+                            case "pois":
+                                poiService.deletePois();
+                                System.out.println(Messages.get("program.op.ok"));
+                                break;
+                            case "categories":
+                                poiService.deleteCategories();
+                                System.out.println(Messages.get("program.op.ok"));
+                                break;
+                            case "all":
+                                poiService.deleteAll();
                                 System.out.println(Messages.get("program.op.ok"));
                                 break;
                             default:

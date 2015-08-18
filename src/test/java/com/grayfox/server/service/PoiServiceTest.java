@@ -194,4 +194,82 @@ public class PoiServiceTest {
 
         assertThat(categoryJdbcDao.findAll()).isNotNull().isNotEmpty().doesNotContainNull().hasSameSizeAs(expectedCategories).containsOnlyElementsOf(expectedCategories);
     }
+
+    @Test
+    @Transactional
+    public void testDeletePois() {
+        Poi poi = new Poi();
+        poi.setFoursquareId("34jksdf");
+        poi.setName("Name");
+        poi.setLocation(Location.parse("19.34,-98.745"));
+        poi.setFoursquareRating(6.4);
+
+        Category category1 = new Category();
+        category1.setFoursquareId("67jgsjhdf34");
+        category1.setDefaultName("Name");
+        category1.setSpanishName("Name");
+        category1.setIconUrl("https://png");
+
+        Category category2 = new Category();
+        category2.setFoursquareId("93hsd37y645");
+        category2.setDefaultName("Name");
+        category2.setSpanishName("Name");
+        category2.setIconUrl("https://png");
+        poi.setCategories(new HashSet<>(Arrays.asList(category2)));
+
+        List<Category> expectedCategories = Arrays.asList(category1, category2);
+        categoryJdbcDao.save(expectedCategories);
+
+        assertThat(category1.getId()).isNotNull();
+        assertThat(category2.getId()).isNotNull();
+
+        poiJdbcDao.save(poi);
+
+        assertThat(poi.getId()).isNotNull();
+
+        poiService.deletePois();
+        
+        assertThat(poiJdbcDao.findAll()).isNotNull().isEmpty();
+        assertThat(categoryJdbcDao.findAll()).isNotNull().isNotEmpty().doesNotContainNull().hasSameSizeAs(expectedCategories).containsOnlyElementsOf(expectedCategories);
+    }
+
+    @Test
+    @Transactional
+    public void testDeleteCategories() {
+        Poi poi = new Poi();
+        poi.setFoursquareId("34jksdf");
+        poi.setName("Name");
+        poi.setLocation(Location.parse("19.34,-98.745"));
+        poi.setFoursquareRating(6.4);
+
+        Category category1 = new Category();
+        category1.setFoursquareId("67jgsjhdf34");
+        category1.setDefaultName("Name");
+        category1.setSpanishName("Name");
+        category1.setIconUrl("https://png");
+
+        Category category2 = new Category();
+        category2.setFoursquareId("93hsd37y645");
+        category2.setDefaultName("Name");
+        category2.setSpanishName("Name");
+        category2.setIconUrl("https://png");
+        poi.setCategories(new HashSet<>(Arrays.asList(category2)));
+
+        List<Poi> expectedPois = Arrays.asList(poi);
+        categoryJdbcDao.save(Arrays.asList(category1, category2));
+
+        assertThat(category1.getId()).isNotNull();
+        assertThat(category2.getId()).isNotNull();
+
+        poiJdbcDao.save(poi);
+
+        assertThat(poi.getId()).isNotNull();
+
+        poiService.deleteCategories();
+
+        poi.setCategories(new HashSet<>());
+        
+        assertThat(poiJdbcDao.findAll()).isNotNull().isNotEmpty().doesNotContainNull().hasSameSizeAs(expectedPois).containsOnlyElementsOf(expectedPois);
+        assertThat(categoryJdbcDao.findAll()).isNotNull().isEmpty();
+    }
 }

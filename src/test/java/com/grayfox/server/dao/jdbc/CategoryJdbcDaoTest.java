@@ -59,11 +59,14 @@ public class CategoryJdbcDaoTest {
 
         List<Category> expectedCategories = Arrays.asList(category);
 
-        // save
+        // create
         categoryJdbcDao.save(category);
 
         assertThat(category.getId()).isNotNull();
+
+        // read
         assertThat(categoryJdbcDao.exists(category.getFoursquareId())).isTrue();
+        assertThat(categoryJdbcDao.findByFoursquareId(category.getFoursquareId())).isNotNull().isEqualTo(category);
         assertThat(categoryJdbcDao.findAll()).isNotNull().isNotEmpty().doesNotContainNull().hasSameSizeAs(expectedCategories).containsOnlyElementsOf(expectedCategories);
 
         category.setDefaultName("OtherName");
@@ -71,6 +74,11 @@ public class CategoryJdbcDaoTest {
         // update
         categoryJdbcDao.update(category);
 
-        assertThat(categoryJdbcDao.findAll()).isNotNull().isNotEmpty().doesNotContainNull().hasSameSizeAs(expectedCategories).containsOnlyElementsOf(expectedCategories);
+        assertThat(categoryJdbcDao.findByFoursquareId(category.getFoursquareId())).isNotNull().isEqualTo(category);
+
+        // delete
+        categoryJdbcDao.delete(category);
+
+        assertThat(categoryJdbcDao.findByFoursquareId(category.getFoursquareId())).isNull();
     }
 }

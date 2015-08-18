@@ -20,34 +20,37 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
+import com.grayfox.server.dao.PoiDao;
 import com.grayfox.server.dao.DaoException;
 import com.grayfox.server.domain.Category;
 import com.grayfox.server.domain.Location;
 import com.grayfox.server.domain.Poi;
-
 import org.springframework.stereotype.Repository;
 
-@Repository
-public class PoiJdbcDao extends JdbcDao {
+@Repository("poiLocalDbDao")
+public class PoiJdbcDao extends JdbcDao implements PoiDao {
 
+    @Override
     public void save(Poi poi) {
-        getJdbcTemplate().update(getQuery("createPoi"), poi.getName(), poi.getLocation().getLatitude(), poi.getLocation().getLongitude(), poi.getFoursquareId(), poi.getFoursquareRating());
-        List<Long> ids = getJdbcTemplate().queryForList(getQuery("poiIdByFoursquareId"), Long.class, poi.getFoursquareId());
+        getJdbcTemplate().update(getQuery("Poi.save"), poi.getName(), poi.getLocation().getLatitude(), poi.getLocation().getLongitude(), poi.getFoursquareId(), poi.getFoursquareRating());
+        List<Long> ids = getJdbcTemplate().queryForList(getQuery("Poi.findIdByFoursquareId"), Long.class, poi.getFoursquareId());
         if (ids.size() > 1) {
             throw new DaoException.Builder()
                 .messageKey("data.integrity.error")
                 .build();
         }
         poi.setId(ids.get(0));
-        poi.getCategories().forEach(category -> getJdbcTemplate().update(getQuery("createIsLink"), poi.getFoursquareId(), category.getFoursquareId()));
+        poi.getCategories().forEach(category -> getJdbcTemplate().update(getQuery("Poi.createIsRelationship"), poi.getFoursquareId(), category.getFoursquareId()));
     }
 
+    @Override
     public void save(Collection<Poi> pois) {
         pois.forEach(poi -> save(poi));
     }
 
+    @Override
     public List<Poi> findAll() {
-        List<Poi> pois = getJdbcTemplate().query(getQuery("allPois"), 
+        List<Poi> pois = getJdbcTemplate().query(getQuery("Poi.findAll"), 
                 (ResultSet rs, int i) -> {
                     Poi poi = new Poi();
                     poi.setId(rs.getLong(1));
@@ -59,24 +62,58 @@ public class PoiJdbcDao extends JdbcDao {
                     poi.setFoursquareRating(rs.getDouble(6));
                     return poi;
                 });
-        pois.forEach(poi -> {
-            List<Category> categories = getJdbcTemplate().query(getQuery("categoriesByPoiFoursquareId"), 
-                    (ResultSet rs, int i) -> {
-                        Category category = new Category();
-                        category.setId(rs.getLong(1));
-                        category.setDefaultName(rs.getString(2));
-                        category.setSpanishName(rs.getString(3));
-                        category.setIconUrl(rs.getString(4));
-                        category.setFoursquareId(rs.getString(5));
-                        return category;
-                    }, poi.getFoursquareId());
-            poi.setCategories(new HashSet<>(categories));
-        });
+        pois.forEach(poi -> poi.setCategories(new HashSet<>(findCategoriesByPoiFoursquareId(poi.getFoursquareId()))));
         return pois;
     }
 
+    @Override
+    public List<Poi> findNearLocations(Location... locations) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Poi findByFoursquareId(String foursquareId) {
+        List<Poi> pois = getJdbcTemplate().query(getQuery("Poi.findByFoursquareId"), 
+                (ResultSet rs, int i) -> {
+                    Poi poi = new Poi();
+                    poi.setId(rs.getLong(1));
+                    poi.setName(rs.getString(2));
+                    poi.setLocation(new Location());
+                    poi.getLocation().setLatitude(rs.getDouble(3));
+                    poi.getLocation().setLongitude(rs.getDouble(4));
+                    poi.setFoursquareId(rs.getString(5));
+                    poi.setFoursquareRating(rs.getDouble(6));
+                    return poi;
+                }, foursquareId);
+        if (pois.size() > 1) {
+            throw new DaoException.Builder()
+                .messageKey("data.integrity.error")
+                .build();
+        }
+        if (!pois.isEmpty()) {
+            Poi poi = pois.get(0); 
+            poi.setCategories(new HashSet<>(findCategoriesByPoiFoursquareId(poi.getFoursquareId())));
+            return poi;
+        }
+        return null;
+    }
+
+    private List<Category> findCategoriesByPoiFoursquareId(String foursquareId) {
+        return getJdbcTemplate().query(getQuery("Category.findByPoiFoursquareId"), 
+                (ResultSet rs, int i) -> {
+                    Category category = new Category();
+                    category.setId(rs.getLong(1));
+                    category.setDefaultName(rs.getString(2));
+                    category.setSpanishName(rs.getString(3));
+                    category.setIconUrl(rs.getString(4));
+                    category.setFoursquareId(rs.getString(5));
+                    return category;
+                }, foursquareId);
+    }
+
+    @Override
     public boolean exists(String foursquareId) {
-        List<Long> ids = getJdbcTemplate().queryForList(getQuery("poiIdByFoursquareId"), Long.class, foursquareId);
+        List<Long> ids = getJdbcTemplate().queryForList(getQuery("Poi.findIdByFoursquareId"), Long.class, foursquareId);
         if (ids.size() > 1) {
             throw new DaoException.Builder()
                 .messageKey("data.integrity.error")
@@ -85,13 +122,30 @@ public class PoiJdbcDao extends JdbcDao {
         return !ids.isEmpty();
     }
 
+    @Override
     public void update(Poi poi) {
-        getJdbcTemplate().update(getQuery("updatePoi"), poi.getFoursquareId(), poi.getName(), poi.getLocation().getLatitude(), poi.getLocation().getLongitude(), poi.getFoursquareRating());
-        getJdbcTemplate().update(getQuery("deleteIsLinks"), poi.getFoursquareId());
-        poi.getCategories().forEach(category -> getJdbcTemplate().update(getQuery("createIsLink"), poi.getFoursquareId(), category.getFoursquareId()));
+        getJdbcTemplate().update(getQuery("Poi.update"), poi.getFoursquareId(), poi.getName(), poi.getLocation().getLatitude(), poi.getLocation().getLongitude(), poi.getFoursquareRating());
+        getJdbcTemplate().update(getQuery("Poi.deleteIsRelationships"), poi.getFoursquareId());
+        poi.getCategories().forEach(category -> getJdbcTemplate().update(getQuery("Poi.createIsRelationship"), poi.getFoursquareId(), category.getFoursquareId()));
     }
 
+    @Override
     public void update(Collection<Poi> pois) {
         pois.forEach(poi -> update(poi));
+    }
+
+    @Override
+    public void delete(Poi poi) {
+        getJdbcTemplate().update(getQuery("Poi.delete"), poi.getFoursquareId());
+    }
+
+    @Override
+    public void delete(Collection<Poi> pois) {
+        pois.forEach(poi -> delete(poi));
+    }
+
+    @Override
+    public void deleteAll() {
+        getJdbcTemplate().update(getQuery("Poi.deleteAll"));
     }
 }

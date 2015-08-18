@@ -20,7 +20,6 @@ import static org.assertj.core.api.StrictAssertions.assertThat;
 import static org.mockito.Matchers.anyVararg;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.times;
 
 import java.util.Scanner;
 
@@ -64,6 +63,9 @@ public class ProgramTest {
                         + "update pois\n"
                         + "update categories\n"
                         + "update all\n"
+                        + "delete pois\n"
+                        + "delete categories\n"
+                        + "delete all\n"
                         + "\n"
                         + "invalid command\n"
                         + "update invalidOption\n"
@@ -75,8 +77,12 @@ public class ProgramTest {
         InOrder inOrder = inOrder(poiService);
         inOrder.verify(poiService).addPois(anyVararg());
         inOrder.verify(poiService).updatePois();
-        inOrder.verify(poiService, times(2)).updateCategories();
-        inOrder.verify(poiService).updatePois();
+        inOrder.verify(poiService).updateCategories();
+        inOrder.verify(poiService).updateAll();
+        inOrder.verify(poiService).deletePois();
+        inOrder.verify(poiService).deleteCategories();
+        inOrder.verify(poiService).deleteAll();
+        inOrder.verifyNoMoreInteractions();
     }
 
     @Configuration
@@ -95,6 +101,18 @@ public class ProgramTest {
 
                 @Override
                 public void updatePois() { }
+
+                @Override
+                public void updateAll() { }
+
+                @Override
+                public void deletePois() { }
+
+                @Override
+                public void deleteCategories() { }
+
+                @Override
+                public void deleteAll() { }
             });
         }
     }

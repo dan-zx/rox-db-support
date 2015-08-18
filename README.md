@@ -19,7 +19,7 @@ Usage
 
 ```sh
 $ java -jar rox-db-support.jar
-$ Usage: { add [ location1;location2... ] | update [ pois | categories | all ] | quit }
+$ Usage: { add [ location1;location2... ] | update [ pois | categories | all ] | delete [ pois | categories | all ] | quit }
 ```
 
 License

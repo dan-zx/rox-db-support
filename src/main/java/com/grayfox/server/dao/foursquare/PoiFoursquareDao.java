@@ -17,6 +17,7 @@ package com.grayfox.server.dao.foursquare;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -29,6 +30,7 @@ import com.foursquare4j.response.Result;
 import com.foursquare4j.response.Venue;
 
 import com.grayfox.server.dao.DaoException;
+import com.grayfox.server.dao.PoiDao;
 import com.grayfox.server.domain.Category;
 import com.grayfox.server.domain.Location;
 import com.grayfox.server.domain.Poi;
@@ -36,8 +38,24 @@ import com.grayfox.server.domain.Poi;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class PoiFoursquareDao extends FoursquareDao {
+public class PoiFoursquareDao extends FoursquareDao implements PoiDao {
 
+    @Override
+    public void save(Poi entity) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void save(Collection<Poi> entities) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public List<Poi> findAll() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public List<Poi> findNearLocations(Location... locations) {
         FoursquareApi foursquareApi = getFoursquareApi();
         List<Poi> pois = new ArrayList<>(locations.length);
@@ -47,21 +65,16 @@ public class PoiFoursquareDao extends FoursquareDao {
                 for (Group<VenueRecommendation> group : exploreResult.getResponse().getGroups()) {
                     Arrays.stream(group.getItems()).forEach(venueRecommendation -> pois.add(toPoi(venueRecommendation.getVenue())));
                 }
-            } else throw new DaoException.Builder()
-                    .messageKey("foursquare.request.error")
-                    .addMessageArgument(exploreResult.getMeta().getErrorDetail())
-                    .build();
+            } else throw new DaoException.Builder().messageKey("foursquare.request.error").addMessageArgument(exploreResult.getMeta().getErrorDetail()).build();
         }
         return pois;
     }
 
+    @Override
     public Poi findByFoursquareId(String foursquareId) {
         Result<Venue> venueResult = getFoursquareApi().getVenue(foursquareId);
         if (venueResult.getMeta().getCode() == 200) return toPoi(venueResult.getResponse());
-        else throw new DaoException.Builder()
-                .messageKey("foursquare.request.error")
-                .addMessageArgument(venueResult.getMeta().getErrorDetail())
-                .build();
+        else throw new DaoException.Builder().messageKey("foursquare.request.error").addMessageArgument(venueResult.getMeta().getErrorDetail()).build();
     }
 
     private Poi toPoi(Venue venue) {
@@ -80,5 +93,35 @@ public class PoiFoursquareDao extends FoursquareDao {
         }
         poi.setCategories(myCategories);
         return poi;
+    }
+
+    @Override
+    public boolean exists(String foursquareId) {
+        return findByFoursquareId(foursquareId) != null;
+    }
+
+    @Override
+    public void update(Poi entity) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void update(Collection<Poi> entities) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void delete(Poi entity) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void delete(Collection<Poi> entities) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void deleteAll() {
+        throw new UnsupportedOperationException();
     }
 }
