@@ -39,15 +39,15 @@ public class PoiService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PoiService.class);
 
-    @Inject @Named("poiLocalDbDao")         private PoiDao poiLocalDbDao;
-    @Inject @Named("poiFoursquareDao")      private PoiDao poiFoursquareDao;
-    @Inject @Named("categoryLocalDbDao")    private CategoryDao categoryLocalDbDao;
-    @Inject @Named("categoryFoursquareDao") private CategoryDao categoryFoursquareDao;
+    @Inject @Named("poiLocalDbDao")        private PoiDao poiLocalDbDao;
+    @Inject @Named("poiRemoteDbDao")       private PoiDao poiRemoteDbDao;
+    @Inject @Named("categoryLocalDbDao")   private CategoryDao categoryLocalDbDao;
+    @Inject @Named("categoryRemoteDbDao")  private CategoryDao categoryRemoteDbDao;
 
     @Transactional
     public void addPois(Location... locations) {
         LOGGER.info("Retrieving POIs from Foursquare...");
-        List<Poi> pois = poiFoursquareDao.findNearLocations(locations);
+        List<Poi> pois = poiRemoteDbDao.findNearLocations(locations);
         Set<Category> categories = new HashSet<>();
         pois.forEach(poi -> categories.addAll(poi.getCategories()));
         LOGGER.info("Saving POIs...");
@@ -67,7 +67,7 @@ public class PoiService {
         List<Poi> pois = poiLocalDbDao.findAll();
         LOGGER.info("Updating POIs info from Foursquare...");
         for (Poi poi : pois) {
-            Poi temp = poiFoursquareDao.findByFoursquareId(poi.getFoursquareId());
+            Poi temp = poiRemoteDbDao.findByFoursquareId(poi.getFoursquareId());
             poi.setName(temp.getName());
             poi.setLocation(temp.getLocation());
             poi.setFoursquareId(temp.getFoursquareId());
@@ -84,7 +84,7 @@ public class PoiService {
         List<Category> categories = categoryLocalDbDao.findAll();
         LOGGER.info("Updating Categories info from Foursquare...");
         for (Category category : categories) {
-            Category temp = categoryFoursquareDao.findByFoursquareId(category.getFoursquareId());
+            Category temp = categoryRemoteDbDao.findByFoursquareId(category.getFoursquareId());
             category.setDefaultName(temp.getDefaultName());
             category.setSpanishName(temp.getSpanishName());
             category.setIconUrl(temp.getIconUrl());
