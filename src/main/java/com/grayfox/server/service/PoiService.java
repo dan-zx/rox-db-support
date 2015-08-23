@@ -39,10 +39,10 @@ public class PoiService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PoiService.class);
 
-    @Inject @Named("poiLocalDbDao")        private PoiDao poiLocalDbDao;
-    @Inject @Named("poiRemoteDbDao")       private PoiDao poiRemoteDbDao;
-    @Inject @Named("categoryLocalDbDao")   private CategoryDao categoryLocalDbDao;
-    @Inject @Named("categoryRemoteDbDao")  private CategoryDao categoryRemoteDbDao;
+    @Inject @Named("poiLocalDbDao")       private PoiDao poiLocalDbDao;
+    @Inject @Named("poiRemoteDbDao")      private PoiDao poiRemoteDbDao;
+    @Inject @Named("categoryLocalDbDao")  private CategoryDao categoryLocalDbDao;
+    @Inject @Named("categoryRemoteDbDao") private CategoryDao categoryRemoteDbDao;
 
     @Transactional
     public void addPois(Location... locations) {

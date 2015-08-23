@@ -15,7 +15,7 @@
  */
 package com.grayfox.server;
 
-import static org.assertj.core.api.StrictAssertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import static org.mockito.Matchers.anyVararg;
 import static org.mockito.Mockito.inOrder;
@@ -41,11 +41,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {TestConfig.class, ProgramTest.MockBeanConfig.class})
-@TransactionConfiguration(defaultRollback = true)
 public class ProgramTest {
 
     @Inject private ApplicationContext applicationContext;
