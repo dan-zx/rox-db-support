@@ -22,9 +22,10 @@ import java.util.HashSet;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
-import com.grayfox.server.dao.jdbc.CategoryJdbcDao;
-import com.grayfox.server.dao.jdbc.PoiJdbcDao;
+import com.grayfox.server.dao.CategoryDao;
+import com.grayfox.server.dao.PoiDao;
 import com.grayfox.server.domain.Category;
 import com.grayfox.server.domain.Location;
 import com.grayfox.server.domain.Poi;
@@ -45,8 +46,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class PoiServiceTest {
 
     @Inject private PoiService poiService;
-    @Inject private PoiJdbcDao poiJdbcDao;
-    @Inject private CategoryJdbcDao categoryJdbcDao;
+    @Inject @Named("poiLocalDbDao")      private PoiDao poiJdbcDao;
+    @Inject @Named("categoryLocalDbDao") private CategoryDao categoryJdbcDao;
 
     @Before
     public void setUp() {

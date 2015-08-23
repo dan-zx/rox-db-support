@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.grayfox.server.dao.foursquare;
+package com.grayfox.server.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import com.grayfox.server.domain.Category;
 import com.grayfox.server.test.config.TestConfig;
@@ -34,13 +35,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
-public class CategoryFoursquareDaoTest {
+public class CategoryRemoteDbDaoTest {
 
-    @Inject private CategoryFoursquareDao categoryFoursquareDao;
+    @Inject @Named("categoryRemoteDbDao") private CategoryDao categoryRemoteDbDao;
 
     @Before
     public void setUp() {
-        assertThat(categoryFoursquareDao).isNotNull();
+        assertThat(categoryRemoteDbDao).isNotNull();
     }
 
     @Test
@@ -70,7 +71,7 @@ public class CategoryFoursquareDaoTest {
         c4.setIconUrl("https://ss3.4sqi.net/img/categories_v2/food/argentinian_88.png");
 
         List<Category> expectedCategories = Arrays.asList(c1, c2, c3, c4);
-        List<Category> actualCategories = categoryFoursquareDao.findAll();
+        List<Category> actualCategories = categoryRemoteDbDao.findAll();
 
         assertThat(actualCategories).isNotNull().isNotEmpty().containsOnlyElementsOf(expectedCategories);
     }
@@ -83,7 +84,7 @@ public class CategoryFoursquareDaoTest {
         expectedCategory.setSpanishName("Café");
         expectedCategory.setIconUrl("https://ss3.4sqi.net/img/categories_v2/food/breakfast_88.png");
 
-        Category actualCategory = categoryFoursquareDao.findByFoursquareId(expectedCategory.getFoursquareId());
+        Category actualCategory = categoryRemoteDbDao.findByFoursquareId(expectedCategory.getFoursquareId());
 
         assertThat(actualCategory).isNotNull().isEqualTo(expectedCategory);
     }

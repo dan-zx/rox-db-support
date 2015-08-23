@@ -13,16 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.grayfox.server.dao.jdbc;
+package com.grayfox.server.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
-import com.grayfox.server.domain.Category;
+import com.grayfox.server.domain.Location;
+import com.grayfox.server.domain.Poi;
 import com.grayfox.server.test.config.TestConfig;
 
 import org.junit.Before;
@@ -37,48 +40,47 @@ import org.springframework.transaction.annotation.Transactional;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
 @TransactionConfiguration(defaultRollback = true)
-public class CategoryJdbcDaoTest {
+public class PoiLocalDbDaoTest {
 
-    @Inject private CategoryJdbcDao categoryJdbcDao;
+    @Inject @Named("poiLocalDbDao") private PoiDao poiLocalDbDao;
 
     @Before
     public void setUp() {
-        assertThat(categoryJdbcDao).isNotNull();
+        assertThat(poiLocalDbDao).isNotNull();
     }
 
     @Test
     @Transactional
     public void testCrud() {
-        Category category = new Category();
-        category.setFoursquareId("4bf58dd8d48988d164941735");
-        category.setDefaultName("Plaza");
-        category.setSpanishName("Plaza");
-        category.setIconUrl("https://ss3.4sqi.net/img/categories_v2/parks_outdoors/plaza_88.png");
+        Poi poi = new Poi();
+        poi.setFoursquareId("4ba952daf964a520d81e3ae3");
+        poi.setName("Zócalo");
+        poi.setLocation(Location.parse("19.043884224818616,-98.19828987121582"));
+        poi.setFoursquareRating(9.2);
+        poi.setCategories(new HashSet<>());
 
-        assertThat(categoryJdbcDao.findAll()).isNotNull().isEmpty();
-
-        List<Category> expectedCategories = Arrays.asList(category);
+        List<Poi> expectedPois = Arrays.asList(poi);
 
         // create
-        categoryJdbcDao.save(category);
+        poiLocalDbDao.save(poi);
 
-        assertThat(category.getId()).isNotNull();
+        assertThat(poi.getId()).isNotNull();
 
         // read
-        assertThat(categoryJdbcDao.exists(category.getFoursquareId())).isTrue();
-        assertThat(categoryJdbcDao.findByFoursquareId(category.getFoursquareId())).isNotNull().isEqualTo(category);
-        assertThat(categoryJdbcDao.findAll()).isNotNull().isNotEmpty().doesNotContainNull().hasSameSizeAs(expectedCategories).containsOnlyElementsOf(expectedCategories);
+        assertThat(poiLocalDbDao.exists(poi.getFoursquareId())).isTrue();
+        assertThat(poiLocalDbDao.findByFoursquareId(poi.getFoursquareId())).isNotNull().isEqualTo(poi);
+        assertThat(poiLocalDbDao.findAll()).isNotNull().isNotEmpty().doesNotContainNull().hasSameSizeAs(expectedPois).containsOnlyElementsOf(expectedPois);
 
-        category.setDefaultName("OtherName");
+        poi.setName("OtherName");
 
         // update
-        categoryJdbcDao.update(category);
+        poiLocalDbDao.update(poi);
 
-        assertThat(categoryJdbcDao.findByFoursquareId(category.getFoursquareId())).isNotNull().isEqualTo(category);
+        assertThat(poiLocalDbDao.findByFoursquareId(poi.getFoursquareId())).isNotNull().isEqualTo(poi);
 
         // delete
-        categoryJdbcDao.delete(category);
+        poiLocalDbDao.delete(poi);
 
-        assertThat(categoryJdbcDao.findByFoursquareId(category.getFoursquareId())).isNull();
+        assertThat(poiLocalDbDao.findByFoursquareId(poi.getFoursquareId())).isNull();
     }
 }

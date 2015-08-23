@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.grayfox.server.dao.foursquare;
+package com.grayfox.server.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -23,8 +23,8 @@ import java.util.HashSet;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
-import com.grayfox.server.dao.DaoException;
 import com.grayfox.server.domain.Category;
 import com.grayfox.server.domain.Location;
 import com.grayfox.server.domain.Poi;
@@ -39,13 +39,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
-public class PoiFoursquareDaoTest {
+public class PoiRemoteDbDaoTest {
 
-    @Inject private PoiFoursquareDao poiFoursquareDao;
+    @Inject @Named("poiRemoteDbDao") private PoiDao poiRemoteDbDao;
 
     @Before
     public void setUp() {
-        assertThat(poiFoursquareDao).isNotNull();
+        assertThat(poiRemoteDbDao).isNotNull();
     }
 
     @Test
@@ -104,14 +104,14 @@ public class PoiFoursquareDaoTest {
 
         List<Poi> expectedPois = Arrays.asList(p1, p2, p3, p4);
 
-        List<Poi> actualPois = poiFoursquareDao.findNearLocations(Location.parse("19.043651,-98.197968"), Location.parse("19.054369,-98.283627"));
+        List<Poi> actualPois = poiRemoteDbDao.findNearLocations(Location.parse("19.043651,-98.197968"), Location.parse("19.054369,-98.283627"));
 
         assertThat(actualPois).isNotNull().isNotEmpty().containsOnlyElementsOf(expectedPois);
     }
 
     @Test
     public void testErrorInFindNearLocations() {
-        assertThatThrownBy(() -> poiFoursquareDao.findNearLocations(Location.parse("0,0")))
+        assertThatThrownBy(() -> poiRemoteDbDao.findNearLocations(Location.parse("0,0")))
             .isInstanceOf(DaoException.class)
             .hasMessageStartingWith("Internal error while requesting Foursquare data. Message:");
     }
@@ -131,14 +131,14 @@ public class PoiFoursquareDaoTest {
         category.setIconUrl("https://ss3.4sqi.net/img/categories_v2/food/breakfast_88.png");
         expectedPoi.setCategories(new HashSet<>(Arrays.asList(category)));
 
-        Poi actualPoi = poiFoursquareDao.findByFoursquareId(expectedPoi.getFoursquareId());
+        Poi actualPoi = poiRemoteDbDao.findByFoursquareId(expectedPoi.getFoursquareId());
 
         assertThat(actualPoi).isNotNull().isEqualTo(expectedPoi);
     }
 
     @Test
     public void testErrorInFindByFoursquareId() {
-        assertThatThrownBy(() -> poiFoursquareDao.findByFoursquareId("unknown"))
+        assertThatThrownBy(() -> poiRemoteDbDao.findByFoursquareId("unknown"))
             .isInstanceOf(DaoException.class)
             .hasMessageStartingWith("Internal error while requesting Foursquare data. Message:");
     }
