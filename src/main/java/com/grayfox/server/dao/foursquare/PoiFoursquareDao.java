@@ -60,7 +60,7 @@ public class PoiFoursquareDao extends FoursquareDao implements PoiDao {
         FoursquareApi foursquareApi = getFoursquareApi();
         List<Poi> pois = new ArrayList<>(locations.length);
         for (Location location : locations) {
-            Result<ExploreVenueGroups> exploreResult = foursquareApi.exploreVenues(location.stringValue(), null, null, null, null, null, null, null, 50, null, null, null, null, null, null, null, null, null, null, null, null);
+            Result<ExploreVenueGroups> exploreResult = foursquareApi.exploreVenues(location.stringValues(), null, null, null, null, null, null, null, 50, null, null, null, null, null, null, null, null, null, null, null, null);
             if (exploreResult.getMeta().getCode() == 200) {
                 for (Group<VenueRecommendation> group : exploreResult.getResponse().getGroups()) {
                     Arrays.stream(group.getItems()).forEach(venueRecommendation -> pois.add(toPoi(venueRecommendation.getVenue())));

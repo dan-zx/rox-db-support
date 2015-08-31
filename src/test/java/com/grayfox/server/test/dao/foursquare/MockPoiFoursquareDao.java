@@ -59,7 +59,7 @@ public class MockPoiFoursquareDao extends PoiFoursquareDao {
                     hasOneLocation = true;
                     mockWebServer.enqueue(new MockResponse()
                         .setStatus(HttpStatus.OK.toString())
-                        .setBody(Utils.getContentFromFileInClasspath("responses/explore_" + location.stringValue().replace(',', '_') + ".json")));                    
+                        .setBody(Utils.getContentFromFileInClasspath("responses/explore_" + location.stringValues().replace(',', '_') + ".json")));                    
                 }
             }
         } 

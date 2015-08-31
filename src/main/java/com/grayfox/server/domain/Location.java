@@ -40,6 +40,10 @@ public class Location implements Serializable {
         this.longitude = longitude;
     }
 
+    public String stringValues() {
+        return latitude + "," + longitude;
+    }
+
     public static Location parse(String locationString) {
         if (locationString == null) throw new IllegalArgumentException("Location string must not be null");
         String[] latLng = locationString.split(",");
@@ -75,10 +79,6 @@ public class Location implements Serializable {
         if (Double.doubleToLongBits(latitude) != Double.doubleToLongBits(other.latitude)) return false;
         if (Double.doubleToLongBits(longitude) != Double.doubleToLongBits(other.longitude)) return false;
         return true;
-    }
-
-    public String stringValue() {
-        return latitude + "," + longitude;
     }
 
     @Override
