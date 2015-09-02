@@ -1,7 +1,7 @@
 RoX Database Support
 ====================
 
-Console application for adding and updating POIs in RoX database.
+Console application for RoX database maintenance.
 
 Building the Project
 --------------------
