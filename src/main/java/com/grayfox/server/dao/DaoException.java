@@ -16,60 +16,20 @@
 package com.grayfox.server.dao;
 
 import com.grayfox.server.BaseApplicationException;
-import com.grayfox.server.util.Messages;
 
 public class DaoException extends BaseApplicationException {
 
     private static final long serialVersionUID = 6442324698959192799L;
 
-    private DaoException() { }
-
-    private DaoException(String message, Throwable cause) {
-        super(message, cause);
+    private DaoException(Builder builder) {
+        super(builder);
     }
 
-    private DaoException(String message) {
-        super(message);
-    }
-
-    private DaoException(Throwable cause) {
-        super(cause);
-    }
-
-    public static class Builder extends BaseBuilder {
-
-        @Override
-        public Builder message(String message) {
-            return (Builder) super.message(message);
-        }
-
-        @Override
-        public Builder messageKey(String messageKey) {
-            return (Builder) super.messageKey(messageKey);
-        }
-
-        @Override
-        public Builder addMessageArgument(Object argument) {
-            return (Builder) super.addMessageArgument(argument);
-        }
-        
-        @Override
-        public Builder cause(Throwable cause) {
-            return (Builder) super.cause(cause);
-        }
+    public static class Builder extends BaseBuilder<DaoException> {
 
         @Override
         public DaoException build() {
-            if (getMessage() != null) {
-                if (getCause() != null) return new DaoException(getMessage(), getCause());
-                return new DaoException(getMessage());
-            }
-            if (getMessageKey() != null) {
-                if (getCause() != null) return new DaoException(Messages.get(getMessageKey(), getMessageArguments()), getCause());
-                return new DaoException(Messages.get(getMessageKey(), getMessageArguments()));
-            }
-            if (getCause() != null) return new DaoException(getCause());
-            return new DaoException();
+            return new DaoException(this);
         }
     }
 }

@@ -18,25 +18,17 @@ package com.grayfox.server;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.grayfox.server.util.Messages;
+
 public abstract class BaseApplicationException extends RuntimeException {
 
     private static final long serialVersionUID = 4065199814273911926L;
 
-    protected BaseApplicationException() { }
-
-    protected BaseApplicationException(String message, Throwable cause) {
-        super(message, cause);
+    protected BaseApplicationException(BaseBuilder<? extends BaseApplicationException> builder) { 
+        super(builder.messageKey != null ? Messages.get(builder.messageKey, builder.messageArguments.toArray()) : builder.message, builder.cause);
     }
 
-    protected BaseApplicationException(String message) {
-        super(message);
-    }
-
-    protected BaseApplicationException(Throwable cause) {
-        super(cause);
-    }
-
-    protected static abstract class BaseBuilder {
+    public static abstract class BaseBuilder<T extends BaseApplicationException> {
 
         private String message;
         private String messageKey;
@@ -47,42 +39,26 @@ public abstract class BaseApplicationException extends RuntimeException {
             messageArguments = new ArrayList<>();
         }
 
-        public BaseBuilder message(String message) {
+        public BaseBuilder<T> message(String message) {
             this.message = message;
             return this;
         }
 
-        public BaseBuilder messageKey(String messageKey) {
+        public BaseBuilder<T> messageKey(String messageKey) {
             this.messageKey = messageKey;
             return this;
         }        
 
-        public BaseBuilder addMessageArgument(Object argument) {
+        public BaseBuilder<T> addMessageArgument(Object argument) {
             messageArguments.add(argument);
             return this;
         }
 
-        public BaseBuilder cause(Throwable cause) {
+        public BaseBuilder<T> cause(Throwable cause) {
             this.cause = cause;
             return this;
         }
 
-        protected String getMessage() {
-            return message;
-        }
-
-        protected String getMessageKey() {
-            return messageKey;
-        }
-
-        protected Object[] getMessageArguments() {
-            return messageArguments.toArray();
-        }
-
-        protected Throwable getCause() {
-            return cause;
-        }
-
-        public abstract BaseApplicationException build();
+        public abstract T build();
     }
 }

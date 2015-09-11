@@ -16,60 +16,20 @@
 package com.grayfox.server.service;
 
 import com.grayfox.server.BaseApplicationException;
-import com.grayfox.server.util.Messages;
 
 public class ServiceException extends BaseApplicationException {
 
     private static final long serialVersionUID = 474365738037258460L;
 
-    private ServiceException() { }
-
-    private ServiceException(String message, Throwable cause) {
-        super(message, cause);
+    private ServiceException(Builder builder) {
+        super(builder);
     }
 
-    private ServiceException(String message) {
-        super(message);
-    }
-
-    private ServiceException(Throwable cause) {
-        super(cause);
-    }
-
-    public static class Builder extends BaseBuilder {
-
-        @Override
-        public Builder message(String message) {
-            return (Builder) super.message(message);
-        }
-
-        @Override
-        public Builder messageKey(String messageKey) {
-            return (Builder) super.messageKey(messageKey);
-        }
-
-        @Override
-        public Builder addMessageArgument(Object argument) {
-            return (Builder) super.addMessageArgument(argument);
-        }
-        
-        @Override
-        public Builder cause(Throwable cause) {
-            return (Builder) super.cause(cause);
-        }
+    public static class Builder extends BaseBuilder<ServiceException> {
 
         @Override
         public ServiceException build() {
-            if (getMessage() != null) {
-                if (getCause() != null) return new ServiceException(getMessage(), getCause());
-                return new ServiceException(getMessage());
-            }
-            if (getMessageKey() != null) {
-                if (getCause() != null) return new ServiceException(Messages.get(getMessageKey(), getMessageArguments()), getCause());
-                return new ServiceException(Messages.get(getMessageKey(), getMessageArguments()));
-            }
-            if (getCause() != null) return new ServiceException(getCause());
-            return new ServiceException();
+            return new ServiceException(this);
         }
     }
 }
