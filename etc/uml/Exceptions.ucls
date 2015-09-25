@@ -4,7 +4,7 @@
   <class id="1" language="java" name="com.grayfox.server.service.ServiceException" project="rox-db-support" 
     file="/rox-db-support/src/main/java/com/grayfox/server/service/ServiceException.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="51" width="125" x="41" y="151"/>    
+    <position height="-1" width="-1" x="-2" y="349"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
@@ -13,27 +13,28 @@
   </class>  
   <class id="2" language="java" name="com.grayfox.server.dao.DaoException.Builder" project="rox-db-support" 
     file="/rox-db-support/src/main/java/com/grayfox/server/dao/DaoException.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="92" width="125" x="352" y="355"/>    
+    <position height="-1" width="-1" x="471" y="237"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="false"/>    
     </display>  
   </class>  
-  <class id="3" language="java" name="com.grayfox.server.BaseApplicationException" project="rox-db-support" 
-    file="/rox-db-support/src/main/java/com/grayfox/server/BaseApplicationException.java" binary="false" 
+  <class id="3" language="java" name="com.grayfox.server.exception.BaseApplicationException" project="rox-db-support" 
+    file="/rox-db-support/src/main/java/com/grayfox/server/exception/BaseApplicationException.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="74" width="345" x="206" y="37"/>    
+    <position height="74" width="345" x="62" y="37"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="false"/>    
     </display>  
   </class>  
-  <class id="4" language="java" name="com.grayfox.server.BaseApplicationException.BaseBuilder" project="rox-db-support" 
-    file="/rox-db-support/src/main/java/com/grayfox/server/BaseApplicationException.java" binary="false" 
+  <class id="4" language="java" name="com.grayfox.server.exception.BaseApplicationException.BaseBuilder" 
+    project="rox-db-support" 
+    file="/rox-db-support/src/main/java/com/grayfox/server/exception/BaseApplicationException.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="164" width="251" x="206" y="151"/>    
+    <position height="-1" width="-1" x="232" y="234"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
@@ -42,7 +43,7 @@
   </class>  
   <class id="5" language="java" name="com.grayfox.server.dao.DaoException" project="rox-db-support" 
     file="/rox-db-support/src/main/java/com/grayfox/server/dao/DaoException.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="51" width="109" x="497" y="151"/>    
+    <position height="-1" width="-1" x="469" y="347"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
@@ -52,38 +53,62 @@
   <class id="6" language="java" name="com.grayfox.server.service.ServiceException.Builder" project="rox-db-support" 
     file="/rox-db-support/src/main/java/com/grayfox/server/service/ServiceException.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="92" width="140" x="124" y="355"/>    
+    <position height="-1" width="-1" x="-2" y="238"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="false"/>    
     </display>  
   </class>  
-  <nesting id="7">    
+  <dependency id="7">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="1"/>  
+  </dependency>  
+  <nesting id="8">    
     <end type="SOURCE" refId="5"/>    
     <end type="TARGET" refId="2"/>  
   </nesting>  
-  <generalization id="8">    
+  <dependency id="9">    
     <end type="SOURCE" refId="2"/>    
-    <end type="TARGET" refId="4"/>  
-  </generalization>  
-  <generalization id="9">    
+    <end type="TARGET" refId="5"/>  
+  </dependency>  
+  <dependency id="10">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="3"/>  
+  </dependency>  
+  <generalization id="11">    
+    <bendpoint x="547" y="348"/>    
+    <bendpoint x="547" y="74"/>    
     <end type="SOURCE" refId="5"/>    
     <end type="TARGET" refId="3"/>  
   </generalization>  
-  <nesting id="10">    
+  <nesting id="12">    
     <end type="SOURCE" refId="1"/>    
     <end type="TARGET" refId="6"/>  
   </nesting>  
-  <generalization id="11">    
-    <end type="SOURCE" refId="6"/>    
-    <end type="TARGET" refId="4"/>  
-  </generalization>  
-  <generalization id="12">    
+  <generalization id="13">    
+    <bendpoint x="-85" y="350"/>    
+    <bendpoint x="-85" y="75"/>    
     <end type="SOURCE" refId="1"/>    
     <end type="TARGET" refId="3"/>  
   </generalization>  
-  <nesting id="13">    
+  <dependency id="14">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="5"/>  
+  </dependency>  
+  <generalization id="15">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="4"/>  
+  </generalization>  
+  <dependency id="16">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="1"/>  
+  </dependency>  
+  <generalization id="17">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="4"/>  
+  </generalization>  
+  <nesting id="18">    
     <end type="SOURCE" refId="3"/>    
     <end type="TARGET" refId="4"/>  
   </nesting>  
