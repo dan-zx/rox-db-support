@@ -34,13 +34,13 @@ public class Program {
 
     public static void main(String[] args) {
         try (AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(MainConfig.class)) {
-            new Program().execute(applicationContext, new Scanner(System.in));
+            new Program().run(applicationContext, new Scanner(System.in));
         } catch (Exception ex) {
             LOGGER.error("Error during execution", ex);
         }
     }
 
-    public void execute(ApplicationContext applicationContext, Scanner input) {
+    public void run(ApplicationContext applicationContext, Scanner input) {
         PoiService poiService = applicationContext.getBean(PoiService.class);
         programmLoop: while (true) {
             System.out.println(Messages.get("program.usage"));

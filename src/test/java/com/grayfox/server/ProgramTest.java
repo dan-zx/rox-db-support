@@ -70,7 +70,7 @@ public class ProgramTest {
                         + "update\n"
                         + "quit\n";
         Scanner mockInput = new Scanner(commands);
-        new Program().execute(applicationContext, mockInput);
+        new Program().run(applicationContext, mockInput);
 
         InOrder inOrder = inOrder(poiService);
         inOrder.verify(poiService).addPois(anyVararg());
