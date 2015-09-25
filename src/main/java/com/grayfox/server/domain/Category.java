@@ -15,6 +15,8 @@
  */
 package com.grayfox.server.domain;
 
+import java.util.Objects;
+
 public class Category extends Entity<Long> {
 
     private static final long serialVersionUID = -8204143874909029069L;
@@ -58,13 +60,7 @@ public class Category extends Entity<Long> {
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = super.hashCode();
-        result = prime * result + ((defaultName == null) ? 0 : defaultName.hashCode());
-        result = prime * result + ((foursquareId == null) ? 0 : foursquareId.hashCode());
-        result = prime * result + ((iconUrl == null) ? 0 : iconUrl.hashCode());
-        result = prime * result + ((spanishName == null) ? 0 : spanishName.hashCode());
-        return result;
+        return Objects.hash(super.hashCode(), defaultName, spanishName, iconUrl, foursquareId);
     }
 
     @Override
@@ -73,19 +69,10 @@ public class Category extends Entity<Long> {
         if (!super.equals(obj)) return false;
         if (getClass() != obj.getClass()) return false;
         Category other = (Category) obj;
-        if (defaultName == null) {
-            if (other.defaultName != null) return false;
-        } else if (!defaultName.equals(other.defaultName)) return false;
-        if (foursquareId == null) {
-            if (other.foursquareId != null) return false;
-        } else if (!foursquareId.equals(other.foursquareId)) return false;
-        if (iconUrl == null) {
-            if (other.iconUrl != null) return false;
-        } else if (!iconUrl.equals(other.iconUrl)) return false;
-        if (spanishName == null) {
-            if (other.spanishName != null) return false;
-        } else if (!spanishName.equals(other.spanishName)) return false;
-        return true;
+        return Objects.equals(defaultName, other.defaultName) &&
+               Objects.equals(spanishName, other.spanishName) &&
+               Objects.equals(iconUrl, other.iconUrl) &&
+               Objects.equals(foursquareId, other.foursquareId);
     }
 
     @Override
