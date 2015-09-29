@@ -22,11 +22,11 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
-import com.foursquare4j.response.Result;
-import com.grayfox.server.dao.DaoException;
-
-import com.grayfox.server.domain.Category;
 import com.foursquare4j.FoursquareApi;
+import com.foursquare4j.response.Result;
+
+import com.grayfox.server.dao.DaoException;
+import com.grayfox.server.domain.Category;
 
 abstract class FoursquareDao {
 

@@ -22,6 +22,7 @@ import java.util.List;
 import com.grayfox.server.dao.CategoryDao;
 import com.grayfox.server.dao.DaoException;
 import com.grayfox.server.domain.Category;
+
 import org.springframework.stereotype.Repository;
 
 @Repository("categoryLocalDbDao")

@@ -25,6 +25,7 @@ import com.grayfox.server.dao.DaoException;
 import com.grayfox.server.domain.Category;
 import com.grayfox.server.domain.Location;
 import com.grayfox.server.domain.Poi;
+
 import org.springframework.stereotype.Repository;
 
 @Repository("poiLocalDbDao")
