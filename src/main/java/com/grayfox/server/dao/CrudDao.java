@@ -15,18 +15,15 @@
  */
 package com.grayfox.server.dao;
 
-import java.io.Serializable;
 import java.util.Collection;
-import java.util.List;
 
-public interface CrudDao<T extends Serializable> {
+public interface CrudDao<E> extends ReadableDao<E> {
 
-    void save(T entity);
-    void save(Collection<T> entities);
-    List<T> findAll();
-    void update(T entity);
-    void update(Collection<T> entities);
-    void delete(T entity);
-    void delete(Collection<T> entities);
+    void save(E entity);
+    void save(Collection<E> entities);
+    void update(E entity);
+    void update(Collection<E> entities);
+    void delete(E entity);
+    void delete(Collection<E> entities);
     void deleteAll();
 }

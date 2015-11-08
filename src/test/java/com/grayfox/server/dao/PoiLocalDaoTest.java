@@ -40,13 +40,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Rollback
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
-public class PoiLocalDbDaoTest {
+public class PoiLocalDaoTest {
 
-    @Inject @Named("poiLocalDbDao") private PoiDao poiLocalDbDao;
+    @Inject @Named("poiLocalDao") private PoiDao poiLocalDao;
 
     @Before
     public void setUp() {
-        assertThat(poiLocalDbDao).isNotNull();
+        assertThat(poiLocalDao).isNotNull();
     }
 
     @Test
@@ -62,25 +62,25 @@ public class PoiLocalDbDaoTest {
         List<Poi> expectedPois = Arrays.asList(poi);
 
         // create
-        poiLocalDbDao.save(poi);
+        poiLocalDao.save(poi);
 
         assertThat(poi.getId()).isNotNull();
 
         // read
-        assertThat(poiLocalDbDao.exists(poi.getFoursquareId())).isTrue();
-        assertThat(poiLocalDbDao.findByFoursquareId(poi.getFoursquareId())).isNotNull().isEqualTo(poi);
-        assertThat(poiLocalDbDao.findAll()).isNotNull().isNotEmpty().doesNotContainNull().hasSameSizeAs(expectedPois).containsOnlyElementsOf(expectedPois);
+        assertThat(poiLocalDao.exists(poi.getFoursquareId())).isTrue();
+        assertThat(poiLocalDao.findByFoursquareId(poi.getFoursquareId())).isNotNull().isEqualTo(poi);
+        assertThat(poiLocalDao.findAll()).isNotNull().isNotEmpty().doesNotContainNull().hasSameSizeAs(expectedPois).containsOnlyElementsOf(expectedPois);
 
         poi.setName("OtherName");
 
         // update
-        poiLocalDbDao.update(poi);
+        poiLocalDao.update(poi);
 
-        assertThat(poiLocalDbDao.findByFoursquareId(poi.getFoursquareId())).isNotNull().isEqualTo(poi);
+        assertThat(poiLocalDao.findByFoursquareId(poi.getFoursquareId())).isNotNull().isEqualTo(poi);
 
         // delete
-        poiLocalDbDao.delete(poi);
+        poiLocalDao.delete(poi);
 
-        assertThat(poiLocalDbDao.findByFoursquareId(poi.getFoursquareId())).isNull();
+        assertThat(poiLocalDao.findByFoursquareId(poi.getFoursquareId())).isNull();
     }
 }

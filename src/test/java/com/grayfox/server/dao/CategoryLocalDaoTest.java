@@ -38,13 +38,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Rollback
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
-public class CategoryLocalDbDaoTest {
+public class CategoryLocalDaoTest {
 
-    @Inject @Named("categoryLocalDbDao") private CategoryDao categoryLocalDbDao;
+    @Inject @Named("categoryLocalDao") private CategoryDao categoryLocalDao;
 
     @Before
     public void setUp() {
-        assertThat(categoryLocalDbDao).isNotNull();
+        assertThat(categoryLocalDao).isNotNull();
     }
 
     @Test
@@ -56,30 +56,30 @@ public class CategoryLocalDbDaoTest {
         category.setSpanishName("Plaza");
         category.setIconUrl("https://ss3.4sqi.net/img/categories_v2/parks_outdoors/plaza_88.png");
 
-        assertThat(categoryLocalDbDao.findAll()).isNotNull().isEmpty();
+        assertThat(categoryLocalDao.findAll()).isNotNull().isEmpty();
 
         List<Category> expectedCategories = Arrays.asList(category);
 
         // create
-        categoryLocalDbDao.save(category);
+        categoryLocalDao.save(category);
 
         assertThat(category.getId()).isNotNull();
 
         // read
-        assertThat(categoryLocalDbDao.exists(category.getFoursquareId())).isTrue();
-        assertThat(categoryLocalDbDao.findByFoursquareId(category.getFoursquareId())).isNotNull().isEqualTo(category);
-        assertThat(categoryLocalDbDao.findAll()).isNotNull().isNotEmpty().doesNotContainNull().hasSameSizeAs(expectedCategories).containsOnlyElementsOf(expectedCategories);
+        assertThat(categoryLocalDao.exists(category.getFoursquareId())).isTrue();
+        assertThat(categoryLocalDao.findByFoursquareId(category.getFoursquareId())).isNotNull().isEqualTo(category);
+        assertThat(categoryLocalDao.findAll()).isNotNull().isNotEmpty().doesNotContainNull().hasSameSizeAs(expectedCategories).containsOnlyElementsOf(expectedCategories);
 
         category.setDefaultName("OtherName");
 
         // update
-        categoryLocalDbDao.update(category);
+        categoryLocalDao.update(category);
 
-        assertThat(categoryLocalDbDao.findByFoursquareId(category.getFoursquareId())).isNotNull().isEqualTo(category);
+        assertThat(categoryLocalDao.findByFoursquareId(category.getFoursquareId())).isNotNull().isEqualTo(category);
 
         // delete
-        categoryLocalDbDao.delete(category);
+        categoryLocalDao.delete(category);
 
-        assertThat(categoryLocalDbDao.findByFoursquareId(category.getFoursquareId())).isNull();
+        assertThat(categoryLocalDao.findByFoursquareId(category.getFoursquareId())).isNull();
     }
 }

@@ -16,31 +16,30 @@
 package com.grayfox.server.dao.jdbc;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
-import com.grayfox.server.dao.PoiDao;
+import javax.inject.Inject;
+
 import com.grayfox.server.dao.DaoException;
-import com.grayfox.server.domain.Category;
+import com.grayfox.server.dao.PoiDao;
 import com.grayfox.server.domain.Location;
 import com.grayfox.server.domain.Poi;
 
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-@Repository("poiLocalDbDao")
+@Repository("poiLocalDao")
 public class PoiJdbcDao extends JdbcDao implements PoiDao {
+
+    @Inject private CategoryJdbcDao categoryDao;
 
     @Override
     public void save(Poi poi) {
-        getJdbcTemplate().update(getQuery("Poi.save"), poi.getName(), poi.getLocation().getLatitude(), poi.getLocation().getLongitude(), poi.getFoursquareId(), poi.getFoursquareRating());
-        List<Long> ids = getJdbcTemplate().queryForList(getQuery("Poi.findIdByFoursquareId"), Long.class, poi.getFoursquareId());
-        if (ids.size() > 1) {
-            throw new DaoException.Builder()
-                .messageKey("data.integrity.error")
-                .build();
-        }
-        poi.setId(ids.get(0));
+        getJdbcTemplate().update(getQuery("Poi.create"), poi.getName(), poi.getLocation().getLatitude(), poi.getLocation().getLongitude(), poi.getFoursquareId(), poi.getFoursquareRating());
+        poi.setId(getJdbcTemplate().queryForObject(getQuery("Poi.findIdByFoursquareId"), Long.class, poi.getFoursquareId()));
         poi.getCategories().forEach(category -> getJdbcTemplate().update(getQuery("Poi.createIsRelationship"), poi.getFoursquareId(), category.getFoursquareId()));
     }
 
@@ -51,41 +50,21 @@ public class PoiJdbcDao extends JdbcDao implements PoiDao {
 
     @Override
     public List<Poi> findAll() {
-        List<Poi> pois = getJdbcTemplate().query(getQuery("Poi.findAll"), 
-                (ResultSet rs, int i) -> {
-                    Poi poi = new Poi();
-                    poi.setId(rs.getLong(1));
-                    poi.setName(rs.getString(2));
-                    poi.setLocation(new Location());
-                    poi.getLocation().setLatitude(rs.getDouble(3));
-                    poi.getLocation().setLongitude(rs.getDouble(4));
-                    poi.setFoursquareId(rs.getString(5));
-                    poi.setFoursquareRating(rs.getDouble(6));
-                    return poi;
-                });
-        pois.forEach(poi -> poi.setCategories(new HashSet<>(findCategoriesByPoiFoursquareId(poi.getFoursquareId()))));
+        List<Poi> pois = getJdbcTemplate().query(getQuery("Poi.findAll"), new PoiMapper());
+        pois.forEach(poi -> poi.setCategories(new HashSet<>(categoryDao.findByPoiFoursquareId(poi.getFoursquareId()))));
         return pois;
     }
 
     @Override
     public List<Poi> findNearLocations(Location... locations) {
-        throw new UnsupportedOperationException();
+        throw new DaoException.Builder()
+            .messageKey("unsupported.operation.error")
+            .build();
     }
 
     @Override
     public Poi findByFoursquareId(String foursquareId) {
-        List<Poi> pois = getJdbcTemplate().query(getQuery("Poi.findByFoursquareId"), 
-                (ResultSet rs, int i) -> {
-                    Poi poi = new Poi();
-                    poi.setId(rs.getLong(1));
-                    poi.setName(rs.getString(2));
-                    poi.setLocation(new Location());
-                    poi.getLocation().setLatitude(rs.getDouble(3));
-                    poi.getLocation().setLongitude(rs.getDouble(4));
-                    poi.setFoursquareId(rs.getString(5));
-                    poi.setFoursquareRating(rs.getDouble(6));
-                    return poi;
-                }, foursquareId);
+        List<Poi> pois = getJdbcTemplate().query(getQuery("Poi.findByFoursquareId"), new PoiMapper(), foursquareId);
         if (pois.size() > 1) {
             throw new DaoException.Builder()
                 .messageKey("data.integrity.error")
@@ -93,23 +72,10 @@ public class PoiJdbcDao extends JdbcDao implements PoiDao {
         }
         if (!pois.isEmpty()) {
             Poi poi = pois.get(0); 
-            poi.setCategories(new HashSet<>(findCategoriesByPoiFoursquareId(poi.getFoursquareId())));
+            poi.setCategories(new HashSet<>(categoryDao.findByPoiFoursquareId(poi.getFoursquareId())));
             return poi;
         }
         return null;
-    }
-
-    private List<Category> findCategoriesByPoiFoursquareId(String foursquareId) {
-        return getJdbcTemplate().query(getQuery("Category.findByPoiFoursquareId"), 
-                (ResultSet rs, int i) -> {
-                    Category category = new Category();
-                    category.setId(rs.getLong(1));
-                    category.setDefaultName(rs.getString(2));
-                    category.setSpanishName(rs.getString(3));
-                    category.setIconUrl(rs.getString(4));
-                    category.setFoursquareId(rs.getString(5));
-                    return category;
-                }, foursquareId);
     }
 
     @Override
@@ -148,5 +114,22 @@ public class PoiJdbcDao extends JdbcDao implements PoiDao {
     @Override
     public void deleteAll() {
         getJdbcTemplate().update(getQuery("Poi.deleteAll"));
+    }
+
+    private static class PoiMapper implements RowMapper<Poi> {
+
+        @Override
+        public Poi mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Poi poi = new Poi();
+            int columnIndex = 1;
+            poi.setId(rs.getLong(columnIndex++));
+            poi.setName(rs.getString(columnIndex++));
+            poi.setLocation(new Location());
+            poi.getLocation().setLatitude(rs.getDouble(columnIndex++));
+            poi.getLocation().setLongitude(rs.getDouble(columnIndex++));
+            poi.setFoursquareId(rs.getString(columnIndex++));
+            poi.setFoursquareRating(rs.getDouble(columnIndex++));
+            return poi;
+        }
     }
 }

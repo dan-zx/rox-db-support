@@ -39,35 +39,35 @@ public class PoiService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PoiService.class);
 
-    @Inject @Named("poiLocalDbDao")       private PoiDao poiLocalDbDao;
-    @Inject @Named("poiRemoteDbDao")      private PoiDao poiRemoteDbDao;
-    @Inject @Named("categoryLocalDbDao")  private CategoryDao categoryLocalDbDao;
-    @Inject @Named("categoryRemoteDbDao") private CategoryDao categoryRemoteDbDao;
+    @Inject @Named("poiLocalDao")       private PoiDao poiLocalDao;
+    @Inject @Named("poiRemoteDao")      private PoiDao poiRemoteDao;
+    @Inject @Named("categoryLocalDao")  private CategoryDao categoryLocalDao;
+    @Inject @Named("categoryRemoteDao") private CategoryDao categoryRemoteDao;
 
     @Transactional
     public void addPois(Location... locations) {
         LOGGER.info("Retrieving POIs from Foursquare...");
-        List<Poi> pois = poiRemoteDbDao.findNearLocations(locations);
+        List<Poi> pois = poiRemoteDao.findNearLocations(locations);
         Set<Category> categories = new HashSet<>();
         pois.forEach(poi -> categories.addAll(poi.getCategories()));
         LOGGER.info("Saving POIs...");
         for (Category category : categories) {
-            if (!categoryLocalDbDao.exists(category.getFoursquareId())) categoryLocalDbDao.save(category);
-            else categoryLocalDbDao.update(category);
+            if (!categoryLocalDao.exists(category.getFoursquareId())) categoryLocalDao.save(category);
+            else categoryLocalDao.update(category);
         }
         for (Poi poi : pois) {
-            if (!poiLocalDbDao.exists(poi.getFoursquareId())) poiLocalDbDao.save(poi);
-            else poiLocalDbDao.update(poi);
+            if (!poiLocalDao.exists(poi.getFoursquareId())) poiLocalDao.save(poi);
+            else poiLocalDao.update(poi);
         }
         LOGGER.info("POIs saved");
     }
 
     @Transactional
     public void updatePois() {
-        List<Poi> pois = poiLocalDbDao.findAll();
+        List<Poi> pois = poiLocalDao.findAll();
         LOGGER.info("Updating POIs info from Foursquare...");
         for (Poi poi : pois) {
-            Poi temp = poiRemoteDbDao.findByFoursquareId(poi.getFoursquareId());
+            Poi temp = poiRemoteDao.findByFoursquareId(poi.getFoursquareId());
             poi.setName(temp.getName());
             poi.setLocation(temp.getLocation());
             poi.setFoursquareId(temp.getFoursquareId());
@@ -75,23 +75,23 @@ public class PoiService {
             poi.setCategories(temp.getCategories());
         }
         LOGGER.info("Updating POIs in database...");
-        poiLocalDbDao.update(pois);
+        poiLocalDao.update(pois);
         LOGGER.info("POIs updated");
     }
 
     @Transactional
     public void updateCategories() {
-        List<Category> categories = categoryLocalDbDao.findAll();
+        List<Category> categories = categoryLocalDao.findAll();
         LOGGER.info("Updating Categories info from Foursquare...");
         for (Category category : categories) {
-            Category temp = categoryRemoteDbDao.findByFoursquareId(category.getFoursquareId());
+            Category temp = categoryRemoteDao.findByFoursquareId(category.getFoursquareId());
             category.setDefaultName(temp.getDefaultName());
             category.setSpanishName(temp.getSpanishName());
             category.setIconUrl(temp.getIconUrl());
             category.setFoursquareId(temp.getFoursquareId());
         }
         LOGGER.info("Updating Categories in database...");
-        categoryLocalDbDao.update(categories);
+        categoryLocalDao.update(categories);
         LOGGER.info("Categories updated");
     }
 
@@ -104,13 +104,13 @@ public class PoiService {
     @Transactional
     public void deletePois() {
         LOGGER.info("Deleting all POIs from database...");
-        poiLocalDbDao.deleteAll();
+        poiLocalDao.deleteAll();
     }
 
     @Transactional
     public void deleteCategories() {
         LOGGER.info("Deleting all Categories from database...");
-        categoryLocalDbDao.deleteAll();
+        categoryLocalDao.deleteAll();
     }
 
     @Transactional

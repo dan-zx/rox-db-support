@@ -46,14 +46,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class PoiServiceTest {
 
     @Inject private PoiService poiService;
-    @Inject @Named("poiLocalDbDao")      private PoiDao poiJdbcDao;
-    @Inject @Named("categoryLocalDbDao") private CategoryDao categoryJdbcDao;
+    @Inject @Named("poiLocalDao")      private PoiDao poiLocalDao;
+    @Inject @Named("categoryLocalDao") private CategoryDao categoryLocalDao;
 
     @Before
     public void setUp() {
         assertThat(poiService).isNotNull();
-        assertThat(poiJdbcDao).isNotNull();
-        assertThat(categoryJdbcDao).isNotNull();
+        assertThat(poiLocalDao).isNotNull();
+        assertThat(categoryLocalDao).isNotNull();
     }
 
     @Test
@@ -72,11 +72,11 @@ public class PoiServiceTest {
         p1.setFoursquareRating(6.4);
         p1.setCategories(new HashSet<>(Arrays.asList(category)));
 
-        categoryJdbcDao.save(category);
+        categoryLocalDao.save(category);
 
         assertThat(category.getId()).isNotNull();
 
-        poiJdbcDao.save(p1);
+        poiLocalDao.save(p1);
 
         assertThat(p1.getId()).isNotNull();
 
@@ -105,7 +105,7 @@ public class PoiServiceTest {
         p2.setCategories(new HashSet<>(Arrays.asList(category)));
 
         List<Poi> expectedPois = Arrays.asList(p1, p2);
-        List<Poi> actualPois = poiJdbcDao.findAll();
+        List<Poi> actualPois = poiLocalDao.findAll();
 
         assertThat(actualPois).isNotNull().isNotEmpty().doesNotContainNull().hasSameSizeAs(expectedPois);
 
@@ -137,12 +137,12 @@ public class PoiServiceTest {
         category2.setIconUrl("https://ss3.4sqi.net/img/categories_v2/food/argentinian_88.png");
         poi.setCategories(new HashSet<>(Arrays.asList(category2)));
 
-        categoryJdbcDao.save(Arrays.asList(category1, category2));
+        categoryLocalDao.save(Arrays.asList(category1, category2));
 
         assertThat(category1.getId()).isNotNull();
         assertThat(category2.getId()).isNotNull();
 
-        poiJdbcDao.save(poi);
+        poiLocalDao.save(poi);
 
         assertThat(poi.getId()).isNotNull();
 
@@ -156,7 +156,7 @@ public class PoiServiceTest {
 
         List<Poi> expectedPois = Arrays.asList(poi);
 
-        assertThat(poiJdbcDao.findAll()).isNotNull().isNotEmpty().doesNotContainNull().hasSameSizeAs(expectedPois).containsOnlyElementsOf(expectedPois);
+        assertThat(poiLocalDao.findAll()).isNotNull().isNotEmpty().doesNotContainNull().hasSameSizeAs(expectedPois).containsOnlyElementsOf(expectedPois);
     }
 
     @Test
@@ -176,7 +176,7 @@ public class PoiServiceTest {
 
         List<Category> expectedCategories = Arrays.asList(category1, category2);
 
-        categoryJdbcDao.save(expectedCategories);
+        categoryLocalDao.save(expectedCategories);
 
         assertThat(category1.getId()).isNotNull();
         assertThat(category2.getId()).isNotNull();
@@ -193,7 +193,7 @@ public class PoiServiceTest {
         category2.setSpanishName("Restaurante argentino");
         category2.setIconUrl("https://ss3.4sqi.net/img/categories_v2/food/argentinian_88.png");
 
-        assertThat(categoryJdbcDao.findAll()).isNotNull().isNotEmpty().doesNotContainNull().hasSameSizeAs(expectedCategories).containsOnlyElementsOf(expectedCategories);
+        assertThat(categoryLocalDao.findAll()).isNotNull().isNotEmpty().doesNotContainNull().hasSameSizeAs(expectedCategories).containsOnlyElementsOf(expectedCategories);
     }
 
     @Test
@@ -219,19 +219,19 @@ public class PoiServiceTest {
         poi.setCategories(new HashSet<>(Arrays.asList(category2)));
 
         List<Category> expectedCategories = Arrays.asList(category1, category2);
-        categoryJdbcDao.save(expectedCategories);
+        categoryLocalDao.save(expectedCategories);
 
         assertThat(category1.getId()).isNotNull();
         assertThat(category2.getId()).isNotNull();
 
-        poiJdbcDao.save(poi);
+        poiLocalDao.save(poi);
 
         assertThat(poi.getId()).isNotNull();
 
         poiService.deletePois();
         
-        assertThat(poiJdbcDao.findAll()).isNotNull().isEmpty();
-        assertThat(categoryJdbcDao.findAll()).isNotNull().isNotEmpty().doesNotContainNull().hasSameSizeAs(expectedCategories).containsOnlyElementsOf(expectedCategories);
+        assertThat(poiLocalDao.findAll()).isNotNull().isEmpty();
+        assertThat(categoryLocalDao.findAll()).isNotNull().isNotEmpty().doesNotContainNull().hasSameSizeAs(expectedCategories).containsOnlyElementsOf(expectedCategories);
     }
 
     @Test
@@ -257,12 +257,12 @@ public class PoiServiceTest {
         poi.setCategories(new HashSet<>(Arrays.asList(category2)));
 
         List<Poi> expectedPois = Arrays.asList(poi);
-        categoryJdbcDao.save(Arrays.asList(category1, category2));
+        categoryLocalDao.save(Arrays.asList(category1, category2));
 
         assertThat(category1.getId()).isNotNull();
         assertThat(category2.getId()).isNotNull();
 
-        poiJdbcDao.save(poi);
+        poiLocalDao.save(poi);
 
         assertThat(poi.getId()).isNotNull();
 
@@ -270,7 +270,7 @@ public class PoiServiceTest {
 
         poi.setCategories(new HashSet<>());
         
-        assertThat(poiJdbcDao.findAll()).isNotNull().isNotEmpty().doesNotContainNull().hasSameSizeAs(expectedPois).containsOnlyElementsOf(expectedPois);
-        assertThat(categoryJdbcDao.findAll()).isNotNull().isEmpty();
+        assertThat(poiLocalDao.findAll()).isNotNull().isNotEmpty().doesNotContainNull().hasSameSizeAs(expectedPois).containsOnlyElementsOf(expectedPois);
+        assertThat(categoryLocalDao.findAll()).isNotNull().isEmpty();
     }
 }

@@ -39,13 +39,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
-public class PoiRemoteDbDaoTest {
+public class PoiRemoteDaoTest {
 
-    @Inject @Named("poiRemoteDbDao") private PoiDao poiRemoteDbDao;
+    @Inject @Named("poiRemoteDao") private PoiDao poiRemoteDao;
 
     @Before
     public void setUp() {
-        assertThat(poiRemoteDbDao).isNotNull();
+        assertThat(poiRemoteDao).isNotNull();
     }
 
     @Test
@@ -104,14 +104,14 @@ public class PoiRemoteDbDaoTest {
 
         List<Poi> expectedPois = Arrays.asList(p1, p2, p3, p4);
 
-        List<Poi> actualPois = poiRemoteDbDao.findNearLocations(Location.parse("19.043651,-98.197968"), Location.parse("19.054369,-98.283627"));
+        List<Poi> actualPois = poiRemoteDao.findNearLocations(Location.parse("19.043651,-98.197968"), Location.parse("19.054369,-98.283627"));
 
         assertThat(actualPois).isNotNull().isNotEmpty().containsOnlyElementsOf(expectedPois);
     }
 
     @Test
     public void testErrorInFindNearLocations() {
-        assertThatThrownBy(() -> poiRemoteDbDao.findNearLocations(Location.parse("0,0")))
+        assertThatThrownBy(() -> poiRemoteDao.findNearLocations(Location.parse("0,0")))
             .isInstanceOf(DaoException.class)
             .hasMessageStartingWith("Internal error while requesting Foursquare data. Message:");
     }
@@ -131,14 +131,14 @@ public class PoiRemoteDbDaoTest {
         category.setIconUrl("https://ss3.4sqi.net/img/categories_v2/food/breakfast_88.png");
         expectedPoi.setCategories(new HashSet<>(Arrays.asList(category)));
 
-        Poi actualPoi = poiRemoteDbDao.findByFoursquareId(expectedPoi.getFoursquareId());
+        Poi actualPoi = poiRemoteDao.findByFoursquareId(expectedPoi.getFoursquareId());
 
         assertThat(actualPoi).isNotNull().isEqualTo(expectedPoi);
     }
 
     @Test
     public void testErrorInFindByFoursquareId() {
-        assertThatThrownBy(() -> poiRemoteDbDao.findByFoursquareId("unknown"))
+        assertThatThrownBy(() -> poiRemoteDao.findByFoursquareId("unknown"))
             .isInstanceOf(DaoException.class)
             .hasMessageStartingWith("Internal error while requesting Foursquare data. Message:");
     }

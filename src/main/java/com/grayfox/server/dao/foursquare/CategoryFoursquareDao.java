@@ -24,7 +24,7 @@ import com.grayfox.server.domain.Category;
 
 import org.springframework.stereotype.Repository;
 
-@Repository("categoryRemoteDbDao")
+@Repository("categoryRemoteDao")
 public class CategoryFoursquareDao extends FoursquareDao implements CategoryDao {
 
     @Override

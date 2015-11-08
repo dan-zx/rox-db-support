@@ -31,7 +31,7 @@ import com.squareup.okhttp.mockwebserver.MockWebServer;
 
 import org.springframework.stereotype.Repository;
 
-@Repository("poiRemoteDbDao")
+@Repository("poiRemoteDao")
 public class MockPoiFoursquareDao extends PoiFoursquareDao {
 
     private static final List<Location> SUPPORTED_LOCATIONS = Arrays.asList(Location.parse("19.043651,-98.197968"), Location.parse("19.054369,-98.283627"));

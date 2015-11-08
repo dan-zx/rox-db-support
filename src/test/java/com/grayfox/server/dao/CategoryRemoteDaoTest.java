@@ -35,13 +35,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
-public class CategoryRemoteDbDaoTest {
+public class CategoryRemoteDaoTest {
 
-    @Inject @Named("categoryRemoteDbDao") private CategoryDao categoryRemoteDbDao;
+    @Inject @Named("categoryRemoteDao") private CategoryDao categoryRemoteDao;
 
     @Before
     public void setUp() {
-        assertThat(categoryRemoteDbDao).isNotNull();
+        assertThat(categoryRemoteDao).isNotNull();
     }
 
     @Test
@@ -71,7 +71,7 @@ public class CategoryRemoteDbDaoTest {
         c4.setIconUrl("https://ss3.4sqi.net/img/categories_v2/food/argentinian_88.png");
 
         List<Category> expectedCategories = Arrays.asList(c1, c2, c3, c4);
-        List<Category> actualCategories = categoryRemoteDbDao.findAll();
+        List<Category> actualCategories = categoryRemoteDao.findAll();
 
         assertThat(actualCategories).isNotNull().isNotEmpty().containsOnlyElementsOf(expectedCategories);
     }
@@ -84,7 +84,7 @@ public class CategoryRemoteDbDaoTest {
         expectedCategory.setSpanishName("Café");
         expectedCategory.setIconUrl("https://ss3.4sqi.net/img/categories_v2/food/breakfast_88.png");
 
-        Category actualCategory = categoryRemoteDbDao.findByFoursquareId(expectedCategory.getFoursquareId());
+        Category actualCategory = categoryRemoteDao.findByFoursquareId(expectedCategory.getFoursquareId());
 
         assertThat(actualCategory).isNotNull().isEqualTo(expectedCategory);
     }

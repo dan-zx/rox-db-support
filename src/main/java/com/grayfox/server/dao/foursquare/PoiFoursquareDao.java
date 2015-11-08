@@ -37,7 +37,7 @@ import com.grayfox.server.domain.Poi;
 
 import org.springframework.stereotype.Repository;
 
-@Repository("poiRemoteDbDao")
+@Repository("poiRemoteDao")
 public class PoiFoursquareDao extends FoursquareDao implements PoiDao {
 
     @Override

@@ -16,7 +16,7 @@
   ~ limitations under the License.
   -->
 <properties>
-    <entry key="Poi.save">
+    <entry key="Poi.create">
         <![CDATA[
              CREATE (:Poi {name:{1}, latitude:{2}, longitude:{3}, foursquareId:{4}, foursquareRating:{5}})
         ]]>
@@ -71,7 +71,7 @@
              DELETE r
         ]]>
     </entry>
-    <entry key="Category.save">
+    <entry key="Category.create">
         <![CDATA[
              CREATE (:Category {defaultName:{1}, spanishName:{2}, iconUrl:{3}, foursquareId:{4}})
         ]]>

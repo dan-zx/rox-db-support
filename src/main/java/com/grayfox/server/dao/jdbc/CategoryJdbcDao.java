@@ -16,6 +16,7 @@
 package com.grayfox.server.dao.jdbc;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
 
@@ -23,21 +24,16 @@ import com.grayfox.server.dao.CategoryDao;
 import com.grayfox.server.dao.DaoException;
 import com.grayfox.server.domain.Category;
 
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-@Repository("categoryLocalDbDao")
+@Repository("categoryLocalDao")
 public class CategoryJdbcDao extends JdbcDao implements CategoryDao {
 
     @Override
     public void save(Category category) {
-        getJdbcTemplate().update(getQuery("Category.save"), category.getDefaultName(), category.getSpanishName(), category.getIconUrl(), category.getFoursquareId());
-        List<Long> ids = getJdbcTemplate().queryForList(getQuery("Category.findIdByFoursquareId"), Long.class, category.getFoursquareId());
-        if (ids.size() > 1) {
-            throw new DaoException.Builder()
-                .messageKey("data.integrity.error")
-                .build();
-        }
-        category.setId(ids.get(0));
+        getJdbcTemplate().update(getQuery("Category.create"), category.getDefaultName(), category.getSpanishName(), category.getIconUrl(), category.getFoursquareId());
+        category.setId(getJdbcTemplate().queryForObject(getQuery("Category.findIdByFoursquareId"), Long.class, category.getFoursquareId()));
     }
 
     @Override
@@ -47,30 +43,16 @@ public class CategoryJdbcDao extends JdbcDao implements CategoryDao {
 
     @Override
     public List<Category> findAll() {
-        return getJdbcTemplate().query(getQuery("Category.findAll"), 
-                (ResultSet rs, int i) -> {
-                    Category category = new Category();
-                    category.setId(rs.getLong(1));
-                    category.setDefaultName(rs.getString(2));
-                    category.setSpanishName(rs.getString(3));
-                    category.setIconUrl(rs.getString(4));
-                    category.setFoursquareId(rs.getString(5));
-                    return category;
-                });
+        return getJdbcTemplate().query(getQuery("Category.findAll"), new CategoryMapper());
+    }
+
+    protected List<Category> findByPoiFoursquareId(String foursquareId) {
+        return getJdbcTemplate().query(getQuery("Category.findByPoiFoursquareId"), new CategoryMapper(), foursquareId);
     }
 
     @Override
     public Category findByFoursquareId(String foursquareId) {
-        List<Category> categories = getJdbcTemplate().query(getQuery("Category.findByFoursquareId"), 
-                (ResultSet rs, int i) -> {
-                    Category category = new Category();
-                    category.setId(rs.getLong(1));
-                    category.setDefaultName(rs.getString(2));
-                    category.setSpanishName(rs.getString(3));
-                    category.setIconUrl(rs.getString(4));
-                    category.setFoursquareId(rs.getString(5));
-                    return category;
-                }, foursquareId);
+        List<Category> categories = getJdbcTemplate().query(getQuery("Category.findByFoursquareId"), new CategoryMapper(), foursquareId);
         if (categories.size() > 1) {
             throw new DaoException.Builder()
                 .messageKey("data.integrity.error")
@@ -113,5 +95,21 @@ public class CategoryJdbcDao extends JdbcDao implements CategoryDao {
     @Override
     public void deleteAll() {
         getJdbcTemplate().update(getQuery("Category.deleteAll"));
+    }
+
+    private static class CategoryMapper implements RowMapper<Category> {
+
+        @Override
+        public Category mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Category category = new Category();
+            int columnIndex = 1;
+            category.setId(rs.getLong(columnIndex++));
+            category.setDefaultName(rs.getString(columnIndex++));
+            category.setSpanishName(rs.getString(columnIndex++));
+            category.setIconUrl(rs.getString(columnIndex++));
+            category.setFoursquareId(rs.getString(columnIndex++));
+            return category;
+        }
+        
     }
 }
