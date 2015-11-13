@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.grayfox.server.dao.CategoryDao;
+import com.grayfox.server.dao.DaoException;
 import com.grayfox.server.domain.Category;
 
 import org.springframework.stereotype.Repository;
@@ -29,12 +30,16 @@ public class CategoryFoursquareDao extends FoursquareDao implements CategoryDao 
 
     @Override
     public void save(Category entity) {
-        throw new UnsupportedOperationException();
+        throw new DaoException.Builder()
+            .messageKey("unsupported.operation.error")
+            .build();
     }
 
     @Override
     public void save(Collection<Category> entities) {
-        throw new UnsupportedOperationException();
+        throw new DaoException.Builder()
+            .messageKey("unsupported.operation.error")
+            .build();
     }
 
     @Override
@@ -56,26 +61,36 @@ public class CategoryFoursquareDao extends FoursquareDao implements CategoryDao 
 
     @Override
     public void update(Category entity) {
-        throw new UnsupportedOperationException();
+        throw new DaoException.Builder()
+            .messageKey("unsupported.operation.error")
+            .build();
     }
 
     @Override
     public void update(Collection<Category> entities) {
-        throw new UnsupportedOperationException();
+        throw new DaoException.Builder()
+            .messageKey("unsupported.operation.error")
+            .build();
     }
 
     @Override
     public void delete(Category entity) {
-        throw new UnsupportedOperationException();
+        throw new DaoException.Builder()
+            .messageKey("unsupported.operation.error")
+            .build();
     }
 
     @Override
     public void delete(Collection<Category> entities) {
-        throw new UnsupportedOperationException();
+        throw new DaoException.Builder()
+            .messageKey("unsupported.operation.error")
+            .build();
     }
 
     @Override
     public void deleteAll() {
-        throw new UnsupportedOperationException();
+        throw new DaoException.Builder()
+            .messageKey("unsupported.operation.error")
+            .build();
     }
 }
