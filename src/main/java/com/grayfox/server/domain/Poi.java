@@ -20,8 +20,6 @@ import java.util.Set;
 
 public class Poi extends Entity<Long> {
 
-    private static final long serialVersionUID = 7058036287180141517L;
-
     private String name;
     private Location location;
     private String foursquareId;

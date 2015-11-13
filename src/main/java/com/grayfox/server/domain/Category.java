@@ -19,8 +19,6 @@ import java.util.Objects;
 
 public class Category extends Entity<Long> {
 
-    private static final long serialVersionUID = -8204143874909029069L;
-
     private String defaultName;
     private String spanishName;
     private String iconUrl;

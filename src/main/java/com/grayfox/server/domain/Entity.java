@@ -3,9 +3,7 @@ package com.grayfox.server.domain;
 import java.io.Serializable;
 import java.util.Objects;
 
-abstract class Entity<ID extends Serializable> implements Serializable {
-
-    private static final long serialVersionUID = -3086804374747215837L;
+abstract class Entity<ID extends Serializable> {
 
     private ID id;
 
